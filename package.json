@@ -1,0 +1,26 @@
+{
+  "author": "Russell Wallace <russell.wallace@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/russellw/clause-normal-form/issues"
+  },
+  "description": "Represent logic terms as conjunction of clauses",
+  "homepage": "https://github.com/russellw/clause-normal-form#readme",
+  "keywords": [
+    "clause",
+    "conjunctive",
+    "form",
+    "logic",
+    "normal"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "name": "clause-normal-form",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/russellw/clause-normal-form.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.0.0"
+}
