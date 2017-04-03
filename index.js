@@ -41,7 +41,7 @@ function lowerNot(sign, a) {
 	};
 }
 
-// API
+// Exports
 
 function convert(a) {
 }
