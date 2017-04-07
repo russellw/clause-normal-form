@@ -25,6 +25,18 @@ function lowerNot(sign, a) {
 			args: a.args,
 			op: '<=>',
 		})
+	case '=>':
+		var args = [
+			{
+				args: [a.args[0]],
+				op: '~',
+			},
+			a.args[1],
+		]
+		return lowerNot(sign, {
+			args,
+			op: '|',
+		})
 	case '|':
 		var args = a.args.map(x => lowerNot(sign, x))
 		return {
