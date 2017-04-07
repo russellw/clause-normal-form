@@ -7,14 +7,14 @@ function lowerNot(sign, a) {
 	switch (a.op) {
 	case '!':
 		return lowerNot(!sign, a.args[0])
-	case '&&':
+	case '&':
 		var args = a.args.map(
 			function (x) {
 				return lowerNot(sign, x)
 			})
 		return {
 			args,
-			op: sign ? '&&' : '||',
+			op: sign ? '&' : '|',
 		}
 	case '<=>':
 		var args = [
@@ -25,14 +25,14 @@ function lowerNot(sign, a) {
 			args,
 			op: '<=>',
 		}
-	case '||':
+	case '|':
 		var args = a.args.map(
 			function (x) {
 				return lowerNot(sign, x)
 			})
 		return {
 			args,
-			op: sign ? '||' : '&&',
+			op: sign ? '|' : '&',
 		}
 	}
 	if (sign)
