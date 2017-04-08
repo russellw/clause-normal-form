@@ -5,6 +5,11 @@ function convert(a) {
 
 function lowerNot(sign, a) {
 	switch (a.op) {
+	case '!=':
+		return lowerNot(!sign, {
+			args: a.args,
+			op: '=',
+		})
 	case '&':
 		var args = a.args.map(x => lowerNot(sign, x))
 		return {
