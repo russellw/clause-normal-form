@@ -27,14 +27,8 @@ function eliminateQuantifiers(a, bound) {
 	case '?':
 		var vars = a.vars.map(
 			x =>  {
-				var skolem = {
-					args: vals(bound).filter(a => a.op === 'var'),
-					fun: {
-						op: 'fun',
-					},
-					op: 'call',
-				}
-				bound = iop.put(bound, x, skolem)
+				var y = skolem(vals(bound).filter(a => a.op === 'var'))
+				bound = iop.put(bound, x, y)
 				return y
 			})
 		var args = a.args.map(x => eliminateQuantifiers(x, bound))
@@ -156,6 +150,16 @@ function lowerNot(a, sign) {
 	return {
 		args: [a],
 		op: '~',
+	}
+}
+
+function skolem(args) {
+	return {
+		args,
+		fun: {
+			op: 'fun',
+		},
+		op: 'call',
 	}
 }
 
