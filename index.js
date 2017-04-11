@@ -2,7 +2,7 @@
 var iop = require('iop')
 
 function convert(a) {
-	a = lowerNot(true, a)
+	a = lowerNot(a, true)
 	a = eliminateQuantifiers(a)
 }
 
@@ -55,40 +55,40 @@ function eliminateQuantifiers(a, bound) {
 	}
 }
 
-function lowerNot(sign, a) {
+function lowerNot(a, sign) {
 	switch (a.op) {
 	case '!':
-		var args = a.args.map(x => lowerNot(sign, x))
+		var args = a.args.map(x => lowerNot(x, sign))
 		return {
 			args,
 			op: sign ? '!' : '?',
 			vars: a.vars,
 		}
 	case '!=':
-		return lowerNot(!sign, {
+		return lowerNot({
 			args: a.args,
 			op: '=',
-		})
+		}, !sign)
 	case '&':
-		var args = a.args.map(x => lowerNot(sign, x))
+		var args = a.args.map(x => lowerNot(x, sign))
 		return {
 			args,
 			op: sign ? '&' : '|',
 		}
 	case '<=>':
 		var args = [
-			lowerNot(sign, a.args[0]),
-			lowerNot(true, a.args[1]),
+			lowerNot(a.args[0], sign),
+			lowerNot(a.args[1], true),
 		]
 		return {
 			args,
 			op: '<=>',
 		}
 	case '<~>':
-		return lowerNot(!sign, {
+		return lowerNot({
 			args: a.args,
 			op: '<=>',
-		})
+		}, !sign)
 	case '=>':
 		var args = [
 			{
@@ -97,35 +97,35 @@ function lowerNot(sign, a) {
 			},
 			a.args[1],
 		]
-		return lowerNot(sign, {
+		return lowerNot({
 			args,
 			op: '|',
-		})
+		}, sign)
 	case '?':
-		var args = a.args.map(x => lowerNot(sign, x))
+		var args = a.args.map(x => lowerNot(x, sign))
 		return {
 			args,
 			op: sign ? '?' : '!',
 			vars: a.vars,
 		}
 	case '|':
-		var args = a.args.map(x => lowerNot(sign, x))
+		var args = a.args.map(x => lowerNot(x, sign))
 		return {
 			args,
 			op: sign ? '|' : '&',
 		}
 	case '~':
-		return lowerNot(!sign, a.args[0])
+		return lowerNot(a.args[0], !sign)
 	case '~&':
-		return lowerNot(!sign, {
+		return lowerNot({
 			args: a.args,
 			op: '&',
-		})
+		}, !sign)
 	case '~|':
-		return lowerNot(!sign, {
+		return lowerNot({
 			args: a.args,
 			op: '|',
-		})
+		}, !sign)
 	}
 	if (sign)
 		return a
