@@ -64,7 +64,7 @@ function freeVars(a) {
 		case '!':
 		case '?':
 			for (var x of a.vars)
-				bound = iop.put(bound, x)
+				bound = iop.put(bound, x, x)
 			break
 		case 'var':
 			if (!iop.get(bound, a))
