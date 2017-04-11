@@ -4,6 +4,7 @@ var iop = require('iop')
 function convert(a) {
 	a = lowerNot(a, true)
 	a = eliminateQuantifiers(a)
+	a = eliminateEqv(a)
 }
 
 function eliminateQuantifiers(a, bound) {
@@ -53,6 +54,29 @@ function eliminateQuantifiers(a, bound) {
 		args,
 		op: a.op,
 	}
+}
+
+function freeVars(a) {
+	var r = new Set()
+
+	function rec(a, bound) {
+		switch (a.op) {
+		case '!':
+		case '?':
+			for (var x of a.vars)
+				bound = iop.put(bound, x)
+			break
+		case 'var':
+			if (!iop.get(bound, a))
+				r.add(a)
+			break
+		}
+		for (var x of a.args)
+			rec(x, bound)
+	}
+
+	rec(a)
+	return r.keys()
 }
 
 function lowerNot(a, sign) {
