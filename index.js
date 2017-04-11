@@ -76,7 +76,7 @@ function freeVars(a) {
 	}
 
 	rec(a)
-	return r.keys()
+	return Array.from(r)
 }
 
 function lowerNot(a, sign) {
