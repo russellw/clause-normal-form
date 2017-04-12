@@ -1,10 +1,14 @@
 'use strict'
+var clone = require('clone')
 var iop = require('iop')
 
 function convert(a) {
 	a = lowerNot(a, true)
 	a = eliminateQuantifiers(a)
 	a = eliminateEqv(a)
+}
+
+function eliminateEqv(a) {
 }
 
 function eliminateQuantifiers(a, bound) {
@@ -151,6 +155,14 @@ function lowerNot(a, sign) {
 		args: [a],
 		op: '~',
 	}
+}
+
+function map(a, f) {
+	if (!a.args)
+		return a
+	a = clone(a, false, 1)
+	a.args = a.args.map(f)
+	return a
 }
 
 function skolem(args) {
