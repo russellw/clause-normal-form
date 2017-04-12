@@ -47,11 +47,7 @@ function eliminateQuantifiers(a, bound) {
 			return val
 		return a
 	}
-	var args = a.args.map(x => eliminateQuantifiers(x, bound))
-	return {
-		args,
-		op: a.op,
-	}
+	return map(a, x => eliminateQuantifiers(x, bound))
 }
 
 function freeVars(a) {
