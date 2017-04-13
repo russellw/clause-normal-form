@@ -31,6 +31,7 @@ function convert1(a) {
 	a = lowerNot(a, true)
 	a = eliminateQuantifiers(a)
 	a = eliminateEqv(a)
+	a = raiseAnd(a)
 }
 
 function eliminateEqv(a) {
@@ -42,18 +43,17 @@ function eliminateEqv(a) {
 		if (!complex(a))
 			return a
 		var b = skolem(freeVars(a))
-		var args = [
-			{
-				args: [a, b],
-				op: '=>',
-			},
-			{
-				args: [b, a],
-				op: '=>',
-			},
-		]
 		a = {
-			args,
+			args: [
+				{
+					args: [a, b],
+					op: '=>',
+				},
+				{
+					args: [b, a],
+					op: '=>',
+				},
+			],
 			op: '&',
 		}
 		convert1(a)
@@ -228,6 +228,25 @@ function map(a, f) {
 	a = clone(a, false, 1)
 	a.args = a.args.map(f)
 	return a
+}
+
+function raiseAnd(a) {
+	a = map(a, raiseAnd)
+	if (a.op !== '|')
+		return a
+
+	function rename(a) {
+		if (!complex(a))
+			return a
+		var b = skolem(freeVars(a))
+		a = {
+			args: [b, a],
+			op: '=>',
+		}
+		convert1(a)
+		return b
+	}
+
 }
 
 function skolem(args) {
