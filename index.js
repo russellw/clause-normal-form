@@ -2,6 +2,8 @@
 var clone = require('clone')
 var iop = require('iop')
 
+var clauses
+
 function complex(a) {
 	switch (a.op) {
 	case '!':
@@ -20,6 +22,12 @@ function complex(a) {
 }
 
 function convert(a) {
+	clauses = []
+	convert1(a)
+	return clauses
+}
+
+function convert1(a) {
 	a = lowerNot(a, true)
 	a = eliminateQuantifiers(a)
 	a = eliminateEqv(a)
@@ -48,6 +56,8 @@ function eliminateEqv(a) {
 			args,
 			op: '&',
 		}
+		convert1(a)
+		return b
 	}
 
 	var x = rename(a.args[0])
