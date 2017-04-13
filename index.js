@@ -2,6 +2,23 @@
 var clone = require('clone')
 var iop = require('iop')
 
+function complex(a) {
+	switch (a.op) {
+	case '!':
+	case '?':
+	case '~':
+		return complex(a.args[0])
+	case '&':
+	case '<=>':
+	case '<~>':
+	case '=>':
+	case '|':
+	case '~&':
+	case '~|':
+		return true
+	}
+}
+
 function convert(a) {
 	a = lowerNot(a, true)
 	a = eliminateQuantifiers(a)
@@ -12,6 +29,27 @@ function eliminateEqv(a) {
 	a = map(a, eliminateEqv)
 	if (a.op !== '<=>')
 		return a
+
+	function rename(a) {
+		if (!complex(a))
+			return a
+		var b = skolem(freeVars(a))
+		var args = [
+			{
+				args: [a, b],
+				op: '=>',
+			},
+			{
+				args: [b, a],
+				op: '=>',
+			},
+		]
+		a = {
+			args,
+			op: '&',
+		}
+	}
+
 	var x = rename(a.args[0])
 	var y = rename(a.args[1])
 	var args = [
