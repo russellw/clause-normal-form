@@ -9,6 +9,27 @@ function convert(a) {
 }
 
 function eliminateEqv(a) {
+	a = map(a, eliminateEqv)
+	if (a.op !== '<=>')
+		return a
+	var x = rename(a.args[0])
+	var y = rename(a.args[1])
+	var args = [
+		{
+			args: [x, y],
+			op: '=>',
+		},
+		{
+			args: [y, x],
+			op: '=>',
+		},
+	]
+	a = {
+		args,
+		op: '&',
+	}
+	a = lowerNot(a, true)
+	return a
 }
 
 function eliminateQuantifiers(a, bound) {
