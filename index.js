@@ -32,6 +32,16 @@ function convert1(a) {
 	a = eliminateQuantifiers(a)
 	a = eliminateEqv(a)
 	a = raiseAnd(a)
+	var cs = []
+	flatten('&', a, cs)
+	for (var c of cs) {
+		var literals = []
+		flatten('|', c, literals)
+		clauses.push({
+			args: literals,
+			op: '|',
+		})
+	}
 }
 
 function eliminateEqv(a) {
@@ -117,6 +127,15 @@ function eliminateQuantifiers(a, bound) {
 		return a
 	}
 	return map(a, x => eliminateQuantifiers(x, bound))
+}
+
+function flatten(op, a, cs) {
+	if (a.op === op)
+		for (var x of a.args) {
+			flatten(op, x, cs)
+			return
+		}
+	cs.push(a)
 }
 
 function freeVars(a) {
@@ -247,6 +266,7 @@ function raiseAnd(a) {
 		return b
 	}
 
+	return map(a, x => x.op === '&' ? rename(x) : x)
 }
 
 function skolem(args) {
