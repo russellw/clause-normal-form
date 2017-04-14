@@ -38,6 +38,15 @@ function convert(a) {
 }
 
 function convert1(a) {
+	var vars = freeVars(a)
+	if (vars.length)
+		a = {
+			args: [a],
+			op: '!',
+			vars,
+		}
+
+	// Process steps
 	a = lowerNot(a, true)
 	a = eliminateQuantifiers(a)
 	a = eliminateEqv(a)
