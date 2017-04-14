@@ -32,8 +32,12 @@ function convert1(a) {
 	a = eliminateQuantifiers(a)
 	a = eliminateEqv(a)
 	a = raiseAnd(a)
+
+	// Flatten &
 	var cs = []
 	flatten('&', a, cs)
+
+	// Flatten |
 	for (var c of cs) {
 		var literals = []
 		flatten('|', c, literals)
@@ -250,9 +254,6 @@ function map(a, f) {
 }
 
 function raiseAnd(a) {
-	a = map(a, raiseAnd)
-	if (a.op !== '|')
-		return a
 
 	function rename(a) {
 		if (!complex(a))
@@ -266,7 +267,13 @@ function raiseAnd(a) {
 		return b
 	}
 
-	return map(a, x => x.op === '&' ? rename(x) : x)
+	switch (a.op) {
+	case '&':
+		return map(a, raiseAnd)
+	case '|':
+		return map(a, x => x.op === '&' ? rename(x) : x)
+	}
+	return a
 }
 
 function skolem(args) {
