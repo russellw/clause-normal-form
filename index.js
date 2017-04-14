@@ -4,6 +4,16 @@ var iop = require('iop')
 
 var clauses
 
+function alternate(a, i, alts) {
+	var r = []
+	for (var alt of alts) {
+		var b = Array.from(a)
+		b[i] = alt
+		r.push(b)
+	}
+	return r
+}
+
 function complex(a) {
 	switch (a.op) {
 	case '!':
@@ -271,6 +281,17 @@ function raiseAnd(a) {
 	case '&':
 		return map(a, raiseAnd)
 	case '|':
+		a = map(a, raiseAnd)
+		if (iop.count(a.args, x => x.op === '&') === 1) {
+			var cs = []
+			var i = a.args.findIndex(x => x.op === '&')
+			flatten('&', a[i], cs)
+			cs = alternate(a.args, i, cs)
+			return {
+				args: cs,
+				op: '&',
+			}
+		}
 		return map(a, x => x.op === '&' ? rename(x) : x)
 	}
 	return a
