@@ -8,6 +8,9 @@
     "iop": "^1.2.0"
   },
   "description": "Represent logic terms as conjunction of clauses",
+  "devDependencies": {
+    "mocha": "^3.2.0"
+  },
   "homepage": "https://github.com/russellw/clause-normal-form#readme",
   "keywords": [
     "clause",
