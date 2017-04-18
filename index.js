@@ -32,6 +32,8 @@ function complex(a) {
 }
 
 function convert(a) {
+	if (typeof a.op !== 'string')
+		throw new Error(a)
 	clauses = []
 	convert1(a)
 	return clauses
