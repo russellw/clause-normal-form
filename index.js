@@ -201,6 +201,14 @@ function eq(a, b) {
 	return true
 }
 
+function eqFalse(a) {
+	return a.op === 'bool' && !a.val
+}
+
+function eqTrue(a) {
+	return a.op === 'bool' && a.val
+}
+
 function evaluate(a, m) {
 	if (m) {
 		var r = m.get(a)
@@ -208,6 +216,16 @@ function evaluate(a, m) {
 			return r
 	}
 	switch (a.op) {
+	case '&':
+		switch (a.length) {
+		case 0:
+			return bool(true)
+		case 1:
+			return a[0]
+		}
+		if (a.some(eqFalse))
+			return bool(false)
+		break
 	case '~':
 		if (a[0].op !== 'bool')
 			break

@@ -283,6 +283,20 @@ describe('evaluate', function () {
 	it('~true = false', function () {
 		assert(index.eq(index.evaluate(index.term('~', index.bool(true))), index.bool(false)))
 	})
+	describe('& truth table', function () {
+		it('false&false = false', function () {
+			assert(index.eq(index.evaluate(index.term('&', index.bool(false), index.bool(false))), index.bool(false)))
+		})
+		it('false&true = false', function () {
+			assert(index.eq(index.evaluate(index.term('&', index.bool(false), index.bool(true))), index.bool(false)))
+		})
+		it('true&false = false', function () {
+			assert(index.eq(index.evaluate(index.term('&', index.bool(true), index.bool(false))), index.bool(false)))
+		})
+		it('true&true = true', function () {
+			assert(index.eq(index.evaluate(index.term('&', index.bool(true), index.bool(true))), index.bool(true)))
+		})
+	})
 })
 describe('convert', function () {
 	it('constant', function () {
