@@ -217,6 +217,8 @@ function evaluate(a, m) {
 	}
 	switch (a.op) {
 	case '&':
+		var args = a.filter(x => !eqTrue(x))
+		a = term(a.op, ...args)
 		switch (a.length) {
 		case 0:
 			return bool(true)

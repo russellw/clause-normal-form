@@ -283,18 +283,33 @@ describe('evaluate', function () {
 	it('~true = false', function () {
 		assert(index.eq(index.evaluate(index.term('~', index.bool(true))), index.bool(false)))
 	})
-	describe('& truth table', function () {
-		it('false&false = false', function () {
-			assert(index.eq(index.evaluate(index.term('&', index.bool(false), index.bool(false))), index.bool(false)))
+	describe('&', function () {
+		describe('0-ary', function () {
+			it('(&) = true', function () {
+				assert(index.eq(index.evaluate(index.term('&')), index.bool(true)))
+			})
 		})
-		it('false&true = false', function () {
-			assert(index.eq(index.evaluate(index.term('&', index.bool(false), index.bool(true))), index.bool(false)))
+		describe('unary', function () {
+			it('(&)false = false', function () {
+				assert(index.eq(index.evaluate(index.term('&', index.bool(false))), index.bool(false)))
+			})
+			it('(&)true = true', function () {
+				assert(index.eq(index.evaluate(index.term('&', index.bool(true))), index.bool(true)))
+			})
 		})
-		it('true&false = false', function () {
-			assert(index.eq(index.evaluate(index.term('&', index.bool(true), index.bool(false))), index.bool(false)))
-		})
-		it('true&true = true', function () {
-			assert(index.eq(index.evaluate(index.term('&', index.bool(true), index.bool(true))), index.bool(true)))
+		describe('binary', function () {
+			it('false&false = false', function () {
+				assert(index.eq(index.evaluate(index.term('&', index.bool(false), index.bool(false))), index.bool(false)))
+			})
+			it('false&true = false', function () {
+				assert(index.eq(index.evaluate(index.term('&', index.bool(false), index.bool(true))), index.bool(false)))
+			})
+			it('true&false = false', function () {
+				assert(index.eq(index.evaluate(index.term('&', index.bool(true), index.bool(false))), index.bool(false)))
+			})
+			it('true&true = true', function () {
+				assert(index.eq(index.evaluate(index.term('&', index.bool(true), index.bool(true))), index.bool(true)))
+			})
 		})
 	})
 })
