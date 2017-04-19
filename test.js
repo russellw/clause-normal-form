@@ -298,16 +298,45 @@ describe('evaluate', function () {
 			assert(index.evaluate(a, m) === a)
 		})
 	})
-	describe('~', function () {
-		it('~false = true', function () {
-			assert(index.eq(index.evaluate(index.term('~', index.bool(false))), index.bool(true)))
+	describe('&', function () {
+		describe('0-ary', function () {
+			it('(&) = true', function () {
+				assert(index.eq(index.evaluate(index.term('&')), index.bool(true)))
+			})
 		})
-		it('~true = false', function () {
-			assert(index.eq(index.evaluate(index.term('~', index.bool(true))), index.bool(false)))
+		describe('unary', function () {
+			it('(&)false = false', function () {
+				assert(index.eq(index.evaluate(index.term('&', index.bool(false))), index.bool(false)))
+			})
+			it('(&)true = true', function () {
+				assert(index.eq(index.evaluate(index.term('&', index.bool(true))), index.bool(true)))
+			})
+			it('(&)a = a', function () {
+				var a = index.fun()
+				assert(index.eq(index.evaluate(index.term('&', a)), a))
+			})
 		})
-		it('~a = ~a', function () {
-			var a = index.fun()
-			assert(index.eq(index.evaluate(index.term('~', a)), index.term('~', a)))
+		describe('binary', function () {
+			it('false&false = false', function () {
+				assert(index.eq(index.evaluate(index.term('&', index.bool(false), index.bool(false))), index.bool(false)))
+			})
+			it('false&true = false', function () {
+				assert(index.eq(index.evaluate(index.term('&', index.bool(false), index.bool(true))), index.bool(false)))
+			})
+			it('true&false = false', function () {
+				assert(index.eq(index.evaluate(index.term('&', index.bool(true), index.bool(false))), index.bool(false)))
+			})
+			it('true&true = true', function () {
+				assert(index.eq(index.evaluate(index.term('&', index.bool(true), index.bool(true))), index.bool(true)))
+			})
+			it('a&false = false', function () {
+				var a = index.fun()
+				assert(index.eq(index.evaluate(index.term('&', a, index.bool(false))), index.bool(false)))
+			})
+			it('a&true = a', function () {
+				var a = index.fun()
+				assert(index.eq(index.evaluate(index.term('&', a, index.bool(true))), a))
+			})
 		})
 	})
 	describe('|', function () {
@@ -351,44 +380,25 @@ describe('evaluate', function () {
 			})
 		})
 	})
-	describe('&', function () {
-		describe('0-ary', function () {
-			it('(&) = true', function () {
-				assert(index.eq(index.evaluate(index.term('&')), index.bool(true)))
-			})
+	describe('~', function () {
+		it('~false = true', function () {
+			assert(index.eq(index.evaluate(index.term('~', index.bool(false))), index.bool(true)))
 		})
-		describe('unary', function () {
-			it('(&)false = false', function () {
-				assert(index.eq(index.evaluate(index.term('&', index.bool(false))), index.bool(false)))
-			})
-			it('(&)true = true', function () {
-				assert(index.eq(index.evaluate(index.term('&', index.bool(true))), index.bool(true)))
-			})
-			it('(&)a = a', function () {
-				var a = index.fun()
-				assert(index.eq(index.evaluate(index.term('&', a)), a))
-			})
+		it('~true = false', function () {
+			assert(index.eq(index.evaluate(index.term('~', index.bool(true))), index.bool(false)))
 		})
-		describe('binary', function () {
-			it('false&false = false', function () {
-				assert(index.eq(index.evaluate(index.term('&', index.bool(false), index.bool(false))), index.bool(false)))
+		it('~a = ~a', function () {
+			var a = index.fun()
+			assert(index.eq(index.evaluate(index.term('~', a)), index.term('~', a)))
+		})
+	})
+	describe('=', function () {
+		describe('integer', function () {
+			it('1 = 1', function () {
+				assert(index.eq(index.evaluate(index.term('=', index.integer(1), index.integer(1))), index.bool(true)))
 			})
-			it('false&true = false', function () {
-				assert(index.eq(index.evaluate(index.term('&', index.bool(false), index.bool(true))), index.bool(false)))
-			})
-			it('true&false = false', function () {
-				assert(index.eq(index.evaluate(index.term('&', index.bool(true), index.bool(false))), index.bool(false)))
-			})
-			it('true&true = true', function () {
-				assert(index.eq(index.evaluate(index.term('&', index.bool(true), index.bool(true))), index.bool(true)))
-			})
-			it('a&false = false', function () {
-				var a = index.fun()
-				assert(index.eq(index.evaluate(index.term('&', a, index.bool(false))), index.bool(false)))
-			})
-			it('a&true = a', function () {
-				var a = index.fun()
-				assert(index.eq(index.evaluate(index.term('&', a, index.bool(true))), a))
+			it('1 != 2', function () {
+				assert(index.eq(index.evaluate(index.term('=', index.integer(1), index.integer(2))), index.bool(false)))
 			})
 		})
 	})

@@ -228,6 +228,12 @@ function evaluate(a, m) {
 		if (a.some(eqFalse))
 			return bool(false)
 		break
+	case '=':
+		if (eq(a[0], a[1]))
+			return bool(true)
+		if (isConst(a[0]) && isConst(a[1]))
+			return bool(false)
+		break
 	case '|':
 		var args = a.filter(x => !eqFalse(x))
 		a = term(a.op, ...args)
@@ -298,6 +304,17 @@ function integer(val) {
 	a.op = 'integer'
 	a.val = val
 	return a
+}
+
+function isConst(a) {
+	switch (a.op) {
+	case 'bool':
+	case 'distinct_obj':
+	case 'integer':
+	case 'rational':
+	case 'real':
+		return true
+	}
 }
 
 function lowerNot(a, sign) {
