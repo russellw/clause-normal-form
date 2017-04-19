@@ -276,12 +276,17 @@ describe('evaluate', function () {
 		m.set(b, b)
 		assert(index.evaluate(a, m) === a)
 	})
-	it('~a = ~a', function () {
-		var a = index.fun()
-		assert(index.eq(index.evaluate(index.term('~', a)), index.term('~', a)))
-	})
-	it('~true = false', function () {
-		assert(index.eq(index.evaluate(index.term('~', index.bool(true))), index.bool(false)))
+	describe('~', function () {
+		it('~false = true', function () {
+			assert(index.eq(index.evaluate(index.term('~', index.bool(false))), index.bool(true)))
+		})
+		it('~true = false', function () {
+			assert(index.eq(index.evaluate(index.term('~', index.bool(true))), index.bool(false)))
+		})
+		it('~a = ~a', function () {
+			var a = index.fun()
+			assert(index.eq(index.evaluate(index.term('~', a)), index.term('~', a)))
+		})
 	})
 	describe('|', function () {
 		describe('0-ary', function () {
