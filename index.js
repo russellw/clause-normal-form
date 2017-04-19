@@ -335,6 +335,14 @@ function vals(m) {
 	return r
 }
 
+function variable(name) {
+	var a = []
+	a.name = name
+	a.op = 'var'
+	return a
+}
+
 exports.convert = convert
 exports.fun = fun
 exports.term = term
+exports.variable = variable
