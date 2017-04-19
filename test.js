@@ -24,8 +24,39 @@ describe('variable', () => {
 describe('term', () => {
 	it('length', () => {
 		var x = index.fun()
-		var a = index.term('~', x)
-		assert(a.length === 1)
+		var y = index.fun()
+		var z = index.fun()
+		var a = index.term('&', x, y, z)
+		assert(a.length === 3)
+	})
+	it('arg', () => {
+		var x = index.fun()
+		var y = index.fun()
+		var z = index.fun()
+		var a = index.term('&', x, y, z)
+		assert(a[0] === x)
+	})
+	it('second arg', () => {
+		var x = index.fun()
+		var y = index.fun()
+		var z = index.fun()
+		var a = index.term('&', x, y, z)
+		assert(a[1] === y)
+	})
+	it('third arg', () => {
+		var x = index.fun()
+		var y = index.fun()
+		var z = index.fun()
+		var a = index.term('&', x, y, z)
+		assert(a[2] === z)
+	})
+	it('args', () => {
+		var x = index.fun()
+		var y = index.fun()
+		var z = index.fun()
+		var args = [x, y, z]
+		var a = index.term('&', ...args)
+		assert(a[2] === z)
 	})
 })
 describe('convert', () => {
