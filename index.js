@@ -28,7 +28,7 @@ function complex(a) {
 	case '!':
 	case '?':
 	case '~':
-		return complex(a.args[0])
+		return complex(a[0])
 	case '&':
 	case '<=>':
 	case '<~>':
@@ -111,8 +111,8 @@ function eliminateEqv(a) {
 		return b
 	}
 
-	var x = rename(a.args[0])
-	var y = rename(a.args[1])
+	var x = rename(a[0])
+	var y = rename(a[1])
 	var args = [
 		{
 			args: [x, y],
@@ -346,8 +346,8 @@ function lowerNot(a, sign) {
 		}
 	case '<=>':
 		var args = [
-			lowerNot(a.args[0], sign),
-			lowerNot(a.args[1], true),
+			lowerNot(a[0], sign),
+			lowerNot(a[1], true),
 		]
 		return {
 			args,
@@ -361,10 +361,10 @@ function lowerNot(a, sign) {
 	case '=>':
 		var args = [
 			{
-				args: [a.args[0]],
+				args: [a[0]],
 				op: '~',
 			},
-			a.args[1],
+			a[1],
 		]
 		return lowerNot({
 			args,
@@ -384,7 +384,7 @@ function lowerNot(a, sign) {
 			op: sign ? '|' : '&',
 		}
 	case '~':
-		return lowerNot(a.args[0], !sign)
+		return lowerNot(a[0], !sign)
 	case '~&':
 		return lowerNot({
 			args: a.args,
