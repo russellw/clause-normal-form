@@ -168,6 +168,15 @@ function eliminateQuantifiers(a, bound) {
 	return map(a, x => eliminateQuantifiers(x, bound))
 }
 
+function evaluate(a, m) {
+	if (m) {
+		var r = m.get(a)
+		if (r)
+			return r
+	}
+	return a
+}
+
 function flatten(op, a, cs) {
 	if (a.op === op)
 		for (var x of a.args) {
@@ -407,6 +416,7 @@ function variable(name) {
 exports.bool = bool
 exports.convert = convert
 exports.distinct_obj = distinct_obj
+exports.evaluate = evaluate
 exports.fun = fun
 exports.integer = integer
 exports.quant = quant

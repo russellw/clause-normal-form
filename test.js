@@ -202,6 +202,26 @@ describe('quant', function () {
 		assert(a[0] === arg)
 	})
 })
+describe('evaluate', function () {
+	it('constant', function () {
+		var a = index.fun()
+		assert(index.evaluate(a) === a)
+	})
+	it('get', function () {
+		var a = index.fun()
+		var b = index.fun()
+		var m = new Map()
+		m.set(a, b)
+		assert(index.evaluate(a, m) === b)
+	})
+	it('get not found', function () {
+		var a = index.fun()
+		var b = index.fun()
+		var m = new Map()
+		m.set(b, b)
+		assert(index.evaluate(a, m) === a)
+	})
+})
 describe('convert', function () {
 	it('constant', function () {
 		var a = {
