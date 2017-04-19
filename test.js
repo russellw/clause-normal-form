@@ -206,8 +206,14 @@ describe('eq', function () {
 	it('true = true', function () {
 		assert(index.eq(index.bool(true), index.bool(true)))
 	})
-	it('false != true', function () {
-		assert(!index.eq(index.bool(false), index.bool(true)))
+	it('true != false', function () {
+		assert(!index.eq(index.bool(true), index.bool(false)))
+	})
+	it('"a" = "a"', function () {
+		assert(index.eq(index.distinct_obj('a'), index.distinct_obj('a')))
+	})
+	it('"a" != "b"', function () {
+		assert(!index.eq(index.distinct_obj('a'), index.distinct_obj('b')))
 	})
 	it('1 = 1', function () {
 		assert(index.eq(index.integer(1), index.integer(1)))
