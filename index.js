@@ -1,4 +1,5 @@
 'use strict'
+var bigInt = require('big-integer')
 var clone = require('clone')
 var iop = require('iop')
 
@@ -206,6 +207,8 @@ function fun(name) {
 }
 
 function integer(val) {
+	if (typeof val === 'string')
+		val = bigInt(val)
 	var a = []
 	a.op = 'integer'
 	a.val = val
@@ -374,6 +377,7 @@ exports.bool = bool
 exports.convert = convert
 exports.distinct_obj = distinct_obj
 exports.fun = fun
+exports.integer = integer
 exports.quant = quant
 exports.term = term
 exports.variable = variable

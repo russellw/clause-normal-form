@@ -1,5 +1,4 @@
 var assert = require('assert')
-var bigInt = require('big-integer')
 var index = require('./index')
 
 describe('bool', function () {
@@ -31,6 +30,16 @@ describe('distinct_obj', function () {
 	})
 	it('length', function () {
 		var a = index.distinct_obj('name')
+		assert(a.length === 0)
+	})
+})
+describe('integer', function () {
+	it('op', function () {
+		var a = index.integer('123')
+		assert(a.op === 'integer')
+	})
+	it('length', function () {
+		var a = index.integer('123')
 		assert(a.length === 0)
 	})
 })
