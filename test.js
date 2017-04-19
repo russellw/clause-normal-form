@@ -296,6 +296,10 @@ describe('evaluate', function () {
 			it('(&)true = true', function () {
 				assert(index.eq(index.evaluate(index.term('&', index.bool(true))), index.bool(true)))
 			})
+			it('(&)a = a', function () {
+				var a = index.fun()
+				assert(index.eq(index.evaluate(index.term('&', a)), a))
+			})
 		})
 		describe('binary', function () {
 			it('false&false = false', function () {
@@ -309,6 +313,14 @@ describe('evaluate', function () {
 			})
 			it('true&true = true', function () {
 				assert(index.eq(index.evaluate(index.term('&', index.bool(true), index.bool(true))), index.bool(true)))
+			})
+			it('a&false = false', function () {
+				var a = index.fun()
+				assert(index.eq(index.evaluate(index.term('&', a, index.bool(false))), index.bool(false)))
+			})
+			it('a&true = a', function () {
+				var a = index.fun()
+				assert(index.eq(index.evaluate(index.term('&', a, index.bool(true))), a))
 			})
 		})
 	})
