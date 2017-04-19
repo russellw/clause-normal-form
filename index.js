@@ -181,6 +181,10 @@ function eq(a, b) {
 	switch (a.op) {
 	case 'bool':
 		return a.val === b.val
+	case 'integer':
+	case 'rational':
+	case 'real':
+		return a.val.eq(b.val)
 	}
 	return true
 }

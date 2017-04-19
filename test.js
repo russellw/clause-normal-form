@@ -209,6 +209,18 @@ describe('eq', function () {
 	it('false != true', function () {
 		assert(!index.eq(index.bool(false), index.bool(true)))
 	})
+	it('1 = 1', function () {
+		assert(index.eq(index.integer(1), index.integer(1)))
+	})
+	it('1 != 2', function () {
+		assert(!index.eq(index.integer(1), index.integer(2)))
+	})
+	it('1/2 = 1/2', function () {
+		assert(index.eq(index.rational('1/2'), index.rational('1/2')))
+	})
+	it('1/2 != 1/3', function () {
+		assert(!index.eq(index.rational('1/2'), index.rational('1/3')))
+	})
 })
 describe('evaluate', function () {
 	it('constant', function () {
