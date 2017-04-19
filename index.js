@@ -228,6 +228,18 @@ function evaluate(a, m) {
 		if (a.some(eqFalse))
 			return bool(false)
 		break
+	case '|':
+		var args = a.filter(x => !eqFalse(x))
+		a = term(a.op, ...args)
+		switch (a.length) {
+		case 0:
+			return bool(false)
+		case 1:
+			return a[0]
+		}
+		if (a.some(eqTrue))
+			return bool(true)
+		break
 	case '~':
 		if (a[0].op !== 'bool')
 			break
