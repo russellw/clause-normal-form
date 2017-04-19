@@ -14,6 +14,13 @@ function alternate(a, i, alts) {
 	return r
 }
 
+function bool(val) {
+	var a = []
+	a.op = 'bool'
+	a.val = val
+	return a
+}
+
 function complex(a) {
 	switch (a.op) {
 	case '!':
@@ -349,6 +356,7 @@ function variable(name) {
 	return a
 }
 
+exports.bool = bool
 exports.convert = convert
 exports.fun = fun
 exports.quant = quant

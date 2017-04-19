@@ -1,6 +1,24 @@
 var assert = require('assert')
 var index = require('./index')
 
+describe('bool', () => {
+	it('op', () => {
+		var a = index.bool(false)
+		assert(a.op === 'bool')
+	})
+	it('false', () => {
+		var a = index.bool(false)
+		assert(a.val === false)
+	})
+	it('true', () => {
+		var a = index.bool(true)
+		assert(a.val === true)
+	})
+	it('length', () => {
+		var a = index.bool(false)
+		assert(a.length === 0)
+	})
+})
 describe('function', () => {
 	it('name', () => {
 		var a = index.fun('name')
