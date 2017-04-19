@@ -119,89 +119,91 @@ describe('atoms', function () {
 		})
 	})
 })
-describe('term', function () {
-	it('op', function () {
-		var x = index.fun()
-		var a = index.term('&', x)
-		assert(a.op === '&')
+describe('terms', function () {
+	describe('term', function () {
+		it('op', function () {
+			var x = index.fun()
+			var a = index.term('&', x)
+			assert(a.op === '&')
+		})
+		it('length', function () {
+			var x = index.fun()
+			var y = index.fun()
+			var z = index.fun()
+			var a = index.term('&', x, y, z)
+			assert(a.length === 3)
+		})
+		it('1st arg', function () {
+			var x = index.fun()
+			var y = index.fun()
+			var z = index.fun()
+			var a = index.term('&', x, y, z)
+			assert(a[0] === x)
+		})
+		it('2nd arg', function () {
+			var x = index.fun()
+			var y = index.fun()
+			var z = index.fun()
+			var a = index.term('&', x, y, z)
+			assert(a[1] === y)
+		})
+		it('3rd arg', function () {
+			var x = index.fun()
+			var y = index.fun()
+			var z = index.fun()
+			var a = index.term('&', x, y, z)
+			assert(a[2] === z)
+		})
+		it('rest args', function () {
+			var x = index.fun()
+			var y = index.fun()
+			var z = index.fun()
+			var args = [x, y, z]
+			var a = index.term('&', ...args)
+			assert(a[2] === z)
+		})
 	})
-	it('length', function () {
-		var x = index.fun()
-		var y = index.fun()
-		var z = index.fun()
-		var a = index.term('&', x, y, z)
-		assert(a.length === 3)
-	})
-	it('1st arg', function () {
-		var x = index.fun()
-		var y = index.fun()
-		var z = index.fun()
-		var a = index.term('&', x, y, z)
-		assert(a[0] === x)
-	})
-	it('2nd arg', function () {
-		var x = index.fun()
-		var y = index.fun()
-		var z = index.fun()
-		var a = index.term('&', x, y, z)
-		assert(a[1] === y)
-	})
-	it('3rd arg', function () {
-		var x = index.fun()
-		var y = index.fun()
-		var z = index.fun()
-		var a = index.term('&', x, y, z)
-		assert(a[2] === z)
-	})
-	it('rest args', function () {
-		var x = index.fun()
-		var y = index.fun()
-		var z = index.fun()
-		var args = [x, y, z]
-		var a = index.term('&', ...args)
-		assert(a[2] === z)
-	})
-})
-describe('quant', function () {
-	it('op', function () {
-		var variables = [
-			index.variable(),
-			index.variable(),
-			index.variable(),
-		]
-		var arg = index.fun()
-		var a = index.quant('!', variables, arg)
-		assert(a.op === '!')
-	})
-	it('variables', function () {
-		var variables = [
-			index.variable(),
-			index.variable(),
-			index.variable(),
-		]
-		var arg = index.fun()
-		var a = index.quant('!', variables, arg)
-		assert.deepEqual(a.variables, variables)
-	})
-	it('length', function () {
-		var variables = [
-			index.variable(),
-			index.variable(),
-			index.variable(),
-		]
-		var arg = index.fun()
-		var a = index.quant('!', variables, arg)
-		assert(a.length === 1)
-	})
-	it('arg', function () {
-		var variables = [
-			index.variable(),
-			index.variable(),
-			index.variable(),
-		]
-		var arg = index.fun()
-		var a = index.quant('!', variables, arg)
-		assert(a[0] === arg)
+	describe('quant', function () {
+		it('op', function () {
+			var variables = [
+				index.variable(),
+				index.variable(),
+				index.variable(),
+			]
+			var arg = index.fun()
+			var a = index.quant('!', variables, arg)
+			assert(a.op === '!')
+		})
+		it('variables', function () {
+			var variables = [
+				index.variable(),
+				index.variable(),
+				index.variable(),
+			]
+			var arg = index.fun()
+			var a = index.quant('!', variables, arg)
+			assert.deepEqual(a.variables, variables)
+		})
+		it('length', function () {
+			var variables = [
+				index.variable(),
+				index.variable(),
+				index.variable(),
+			]
+			var arg = index.fun()
+			var a = index.quant('!', variables, arg)
+			assert(a.length === 1)
+		})
+		it('arg', function () {
+			var variables = [
+				index.variable(),
+				index.variable(),
+				index.variable(),
+			]
+			var arg = index.fun()
+			var a = index.quant('!', variables, arg)
+			assert(a[0] === arg)
+		})
 	})
 })
 describe('eq', function () {
