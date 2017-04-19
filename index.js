@@ -168,6 +168,23 @@ function eliminateQuantifiers(a, bound) {
 	return map(a, x => eliminateQuantifiers(x, bound))
 }
 
+function eq(a, b) {
+	if (a === b)
+		return true
+	if (a.op !== b.op)
+		return
+	if (a.length !== b.length)
+		return
+	for (var i = 0; i < a.length; i++)
+		if (!eq(a[i], b[i]))
+			return
+	switch (a.op) {
+	case 'bool':
+		return a.val === b.val
+	}
+	return true
+}
+
 function evaluate(a, m) {
 	if (m) {
 		var r = m.get(a)
@@ -416,6 +433,7 @@ function variable(name) {
 exports.bool = bool
 exports.convert = convert
 exports.distinct_obj = distinct_obj
+exports.eq = eq
 exports.evaluate = evaluate
 exports.fun = fun
 exports.integer = integer

@@ -202,6 +202,14 @@ describe('quant', function () {
 		assert(a[0] === arg)
 	})
 })
+describe('eq', function () {
+	it('true = true', function () {
+		assert(index.eq(index.bool(true), index.bool(true)))
+	})
+	it('false != true', function () {
+		assert(!index.eq(index.bool(false), index.bool(true)))
+	})
+})
 describe('evaluate', function () {
 	it('constant', function () {
 		var a = index.fun()
