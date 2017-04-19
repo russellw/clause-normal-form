@@ -227,6 +227,24 @@ describe('eq', function () {
 	it('1/2 != 1/3', function () {
 		assert(!index.eq(index.rational('1/2'), index.rational('1/3')))
 	})
+	it('a = a', function () {
+		var a = index.fun()
+		assert(index.eq(a, a))
+	})
+	it('a != b', function () {
+		var a = index.fun()
+		var b = index.fun()
+		assert(!index.eq(a, b))
+	})
+	it('a&a = a&a', function () {
+		var a = index.fun()
+		assert(index.eq(index.term('&', a, a), index.term('&', a, a)))
+	})
+	it('a&a != a&b', function () {
+		var a = index.fun()
+		var b = index.fun()
+		assert(!index.eq(index.term('&', a, a), index.term('&', a, b)))
+	})
 })
 describe('evaluate', function () {
 	it('constant', function () {

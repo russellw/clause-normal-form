@@ -183,6 +183,9 @@ function eq(a, b) {
 		return a.val === b.val
 	case 'distinct_obj':
 		return a.name === b.name
+	case 'fun':
+	case 'variable':
+		return
 	case 'integer':
 	case 'rational':
 	case 'real':
