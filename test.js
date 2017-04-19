@@ -1,4 +1,5 @@
 var assert = require('assert')
+var bigInt = require('big-integer')
 var index = require('./index')
 
 describe('bool', function () {
@@ -37,6 +38,14 @@ describe('integer', function () {
 	it('op', function () {
 		var a = index.integer('123')
 		assert(a.op === 'integer')
+	})
+	it('number val', function () {
+		var a = index.integer(123)
+		assert(a.val.eq(bigInt('123')))
+	})
+	it('string val', function () {
+		var a = index.integer('123')
+		assert(a.val.eq(bigInt(123)))
 	})
 	it('length', function () {
 		var a = index.integer('123')

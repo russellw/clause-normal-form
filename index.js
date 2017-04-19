@@ -207,8 +207,12 @@ function fun(name) {
 }
 
 function integer(val) {
-	if (typeof val === 'string')
+	switch (typeof val) {
+	case 'number':
+	case 'string':
 		val = bigInt(val)
+		break
+	}
 	var a = []
 	a.op = 'integer'
 	a.val = val
