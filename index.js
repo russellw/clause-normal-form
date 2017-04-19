@@ -279,6 +279,13 @@ function map(a, f) {
 	return a
 }
 
+function quant(op, vars, arg) {
+	var a = [arg]
+	a.op = op
+	a.vars = vars
+	return a
+}
+
 function raiseAnd(a) {
 
 	function rename(a) {
@@ -344,5 +351,6 @@ function variable(name) {
 
 exports.convert = convert
 exports.fun = fun
+exports.quant = quant
 exports.term = term
 exports.variable = variable
