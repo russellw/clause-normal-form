@@ -245,6 +245,17 @@ describe('eq', function () {
 		var b = index.fun()
 		assert(!index.eq(index.term('&', a, a), index.term('&', a, b)))
 	})
+	it('![X]:a = ![X]:a', function () {
+		var a = index.fun()
+		var x = index.variable()
+		assert(index.eq(index.quant('!', [x], a), index.quant('!', [x], a)))
+	})
+	it('![X]:a = ![Y]:a', function () {
+		var a = index.fun()
+		var x = index.variable()
+		var y = index.variable()
+		assert(!index.eq(index.quant('!', [x], a), index.quant('!', [y], a)))
+	})
 })
 describe('evaluate', function () {
 	it('constant', function () {

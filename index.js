@@ -173,6 +173,13 @@ function eq(a, b) {
 		return true
 	if (a.op !== b.op)
 		return
+	if (a.variables) {
+		if (a.variables.length !== b.variables.length)
+			return
+		for (var i = 0; i < a.variables.length; i++)
+			if (a.variables[i] !== b.variables[i])
+				return
+	}
 	if (a.length !== b.length)
 		return
 	for (var i = 0; i < a.length; i++)
