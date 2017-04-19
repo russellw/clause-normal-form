@@ -1,4 +1,5 @@
 var assert = require('assert')
+var bigInt = require('big-integer')
 var index = require('./index')
 
 describe('bool', function () {
@@ -50,7 +51,7 @@ describe('fun', function () {
 describe('variable', function () {
 	it('op', function () {
 		var a = index.variable('name')
-		assert(a.op === 'var')
+		assert(a.op === 'variable')
 	})
 	it('name', function () {
 		var a = index.variable('name')
@@ -106,43 +107,43 @@ describe('term', function () {
 })
 describe('quant', function () {
 	it('op', function () {
-		var vars = [
+		var variables = [
 			index.variable(),
 			index.variable(),
 			index.variable(),
 		]
 		var arg = index.fun()
-		var a = index.quant('!', vars, arg)
+		var a = index.quant('!', variables, arg)
 		assert(a.op === '!')
 	})
-	it('vars', function () {
-		var vars = [
+	it('variables', function () {
+		var variables = [
 			index.variable(),
 			index.variable(),
 			index.variable(),
 		]
 		var arg = index.fun()
-		var a = index.quant('!', vars, arg)
-		assert.deepEqual(a.vars, vars)
+		var a = index.quant('!', variables, arg)
+		assert.deepEqual(a.variables, variables)
 	})
 	it('length', function () {
-		var vars = [
+		var variables = [
 			index.variable(),
 			index.variable(),
 			index.variable(),
 		]
 		var arg = index.fun()
-		var a = index.quant('!', vars, arg)
+		var a = index.quant('!', variables, arg)
 		assert(a.length === 1)
 	})
 	it('arg', function () {
-		var vars = [
+		var variables = [
 			index.variable(),
 			index.variable(),
 			index.variable(),
 		]
 		var arg = index.fun()
-		var a = index.quant('!', vars, arg)
+		var a = index.quant('!', variables, arg)
 		assert(a[0] === arg)
 	})
 })

@@ -47,12 +47,12 @@ function convert(a) {
 }
 
 function convert1(a) {
-	var vars = freeVars(a)
-	if (vars.length)
+	var variables = freeVariables(a)
+	if (variables.length)
 		a = {
 			args: [a],
 			op: '!',
-			vars,
+			variables,
 		}
 
 	// Process steps
@@ -91,7 +91,7 @@ function eliminateEqv(a) {
 	function rename(a) {
 		if (!complex(a))
 			return a
-		var b = skolem(freeVars(a))
+		var b = skolem(freeVariables(a))
 		a = {
 			args: [
 				{
@@ -132,9 +132,9 @@ function eliminateEqv(a) {
 function eliminateQuantifiers(a, bound) {
 	switch (a.op) {
 	case '!':
-		var vars = a.vars.map(x => {
+		var variables = a.variables.map(x => {
 			var y = {
-				op: 'var',
+				op: 'variable',
 			}
 			bound = iop.put(bound, x, y)
 			return y
@@ -143,11 +143,11 @@ function eliminateQuantifiers(a, bound) {
 		return {
 			args,
 			op: a.op,
-			vars,
+			variables,
 		}
 	case '?':
-		var vars = a.vars.map(x => {
-			var y = skolem(vals(bound).filter(a => a.op === 'var'))
+		var variables = a.variables.map(x => {
+			var y = skolem(vals(bound).filter(a => a.op === 'variable'))
 			bound = iop.put(bound, x, y)
 			return y
 		})
@@ -155,9 +155,9 @@ function eliminateQuantifiers(a, bound) {
 		return {
 			args,
 			op: a.op,
-			vars,
+			variables,
 		}
-	case 'var':
+	case 'variable':
 		var val = iop.get(bound, a)
 		if (val)
 			return val
@@ -175,17 +175,17 @@ function flatten(op, a, cs) {
 	cs.push(a)
 }
 
-function freeVars(a) {
+function freeVariables(a) {
 	var r = new Set()
 
 	function rec(a, bound) {
 		switch (a.op) {
 		case '!':
 		case '?':
-			for (var x of a.vars)
+			for (var x of a.variables)
 				bound = iop.put(bound, x, x)
 			break
-		case 'var':
+		case 'variable':
 			if (!iop.get(bound, a))
 				r.add(a)
 			break
@@ -205,6 +205,13 @@ function fun(name) {
 	return a
 }
 
+function integer(val) {
+	var a = []
+	a.op = 'integer'
+	a.val = val
+	return a
+}
+
 function lowerNot(a, sign) {
 	switch (a.op) {
 	case '!':
@@ -212,7 +219,7 @@ function lowerNot(a, sign) {
 		return {
 			args,
 			op: sign ? '!' : '?',
-			vars: a.vars,
+			variables: a.variables,
 		}
 	case '!=':
 		return lowerNot({
@@ -256,7 +263,7 @@ function lowerNot(a, sign) {
 		return {
 			args,
 			op: sign ? '?' : '!',
-			vars: a.vars,
+			variables: a.variables,
 		}
 	case '|':
 		var args = a.args.map(x => lowerNot(x, sign))
@@ -293,10 +300,10 @@ function map(a, f) {
 	return a
 }
 
-function quant(op, vars, arg) {
+function quant(op, variables, arg) {
 	var a = [arg]
 	a.op = op
-	a.vars = vars
+	a.variables = variables
 	return a
 }
 
@@ -305,7 +312,7 @@ function raiseAnd(a) {
 	function rename(a) {
 		if (!complex(a))
 			return a
-		var b = skolem(freeVars(a))
+		var b = skolem(freeVariables(a))
 		a = {
 			args: [b, a],
 			op: '=>',
@@ -359,7 +366,7 @@ function vals(m) {
 function variable(name) {
 	var a = []
 	a.name = name
-	a.op = 'var'
+	a.op = 'variable'
 	return a
 }
 
