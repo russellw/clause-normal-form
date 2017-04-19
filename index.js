@@ -216,6 +216,12 @@ function evaluate(a, m) {
 			return r
 	}
 	switch (a.op) {
+	case '!=':
+		if (eq(a[0], a[1]))
+			return bool(false)
+		if (isConst(a[0]) && isConst(a[1]))
+			return bool(true)
+		break
 	case '&':
 		var args = a.filter(x => !eqTrue(x))
 		a = term(a.op, ...args)
