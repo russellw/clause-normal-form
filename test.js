@@ -250,7 +250,7 @@ describe('eq', function () {
 		var x = index.variable()
 		assert(index.eq(index.quant('!', [x], a), index.quant('!', [x], a)))
 	})
-	it('![X]:a = ![Y]:a', function () {
+	it('![X]:a != ![Y]:a', function () {
 		var a = index.fun()
 		var x = index.variable()
 		var y = index.variable()
@@ -258,23 +258,30 @@ describe('eq', function () {
 	})
 })
 describe('evaluate', function () {
-	it('constant', function () {
+	it('a = a', function () {
 		var a = index.fun()
 		assert(index.evaluate(a) === a)
 	})
-	it('get', function () {
+	it('a/a:b = b', function () {
 		var a = index.fun()
 		var b = index.fun()
 		var m = new Map()
 		m.set(a, b)
 		assert(index.evaluate(a, m) === b)
 	})
-	it('get not found', function () {
+	it('a/b:b = a', function () {
 		var a = index.fun()
 		var b = index.fun()
 		var m = new Map()
 		m.set(b, b)
 		assert(index.evaluate(a, m) === a)
+	})
+	it('~a = ~a', function () {
+		var a = index.fun()
+		assert(index.eq(index.evaluate(index.term('~', a)), index.term('~', a)))
+	})
+	it('~true = false', function () {
+		assert(index.eq(index.evaluate(index.term('~', index.bool(true))), index.bool(false)))
 	})
 })
 describe('convert', function () {

@@ -207,6 +207,12 @@ function evaluate(a, m) {
 		if (r)
 			return r
 	}
+	switch (a.op) {
+	case '~':
+		if (a[0].op !== 'bool')
+			break
+		return bool(!a[0].val)
+	}
 	return a
 }
 
