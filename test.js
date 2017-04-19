@@ -19,7 +19,7 @@ describe('bool', () => {
 		assert(a.length === 0)
 	})
 })
-describe('function', () => {
+describe('fun', () => {
 	it('name', () => {
 		var a = index.fun('name')
 		assert(a.name === 'name')
