@@ -184,6 +184,13 @@ function freeVars(a) {
 	return Array.from(r)
 }
 
+function fun(name) {
+	var a = []
+	a.name = name
+	a.op = 'fun'
+	return a
+}
+
 function lowerNot(a, sign) {
 	switch (a.op) {
 	case '!':
@@ -316,6 +323,12 @@ function skolem(args) {
 	}
 }
 
+function term(op, ...args) {
+	var a = Array.from(args)
+	a.op = op
+	return a
+}
+
 function vals(m) {
 	for (var r = []; m; m = m.outer)
 		r.push(m.val)
@@ -323,3 +336,5 @@ function vals(m) {
 }
 
 exports.convert = convert
+exports.fun = fun
+exports.term = term
