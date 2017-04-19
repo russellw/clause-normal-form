@@ -1,5 +1,6 @@
 'use strict'
 var bigInt = require('big-integer')
+var bigRat = require('big-rational')
 var clone = require('clone')
 var iop = require('iop')
 
@@ -348,6 +349,32 @@ function raiseAnd(a) {
 	return a
 }
 
+function rational(val) {
+	switch (typeof val) {
+	case 'number':
+	case 'string':
+		val = bigRat(val)
+		break
+	}
+	var a = []
+	a.op = 'rational'
+	a.val = val
+	return a
+}
+
+function real(val) {
+	switch (typeof val) {
+	case 'number':
+	case 'string':
+		val = bigRat(val)
+		break
+	}
+	var a = []
+	a.op = 'real'
+	a.val = val
+	return a
+}
+
 function skolem(args) {
 	return {
 		args,
@@ -383,5 +410,7 @@ exports.distinct_obj = distinct_obj
 exports.fun = fun
 exports.integer = integer
 exports.quant = quant
+exports.rational = rational
+exports.real = real
 exports.term = term
 exports.variable = variable

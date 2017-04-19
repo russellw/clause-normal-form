@@ -5,6 +5,7 @@
   },
   "dependencies": {
     "big-integer": "^1.6.20",
+    "big-rational": "^0.10.6",
     "clone": "^2.1.1",
     "iop": "^1.2.0"
   },

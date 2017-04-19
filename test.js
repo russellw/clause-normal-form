@@ -1,5 +1,6 @@
 var assert = require('assert')
 var bigInt = require('big-integer')
+var bigRat = require('big-rational')
 var index = require('./index')
 
 describe('bool', function () {
@@ -49,6 +50,42 @@ describe('integer', function () {
 	})
 	it('length', function () {
 		var a = index.integer('123')
+		assert(a.length === 0)
+	})
+})
+describe('rational', function () {
+	it('op', function () {
+		var a = index.rational('1/2')
+		assert(a.op === 'rational')
+	})
+	it('number val', function () {
+		var a = index.rational(0.5)
+		assert(a.val.eq(bigRat('1/2')))
+	})
+	it('string val', function () {
+		var a = index.rational('1/2')
+		assert(a.val.eq(bigRat(0.5)))
+	})
+	it('length', function () {
+		var a = index.rational('1/2')
+		assert(a.length === 0)
+	})
+})
+describe('real', function () {
+	it('op', function () {
+		var a = index.real('0.5')
+		assert(a.op === 'real')
+	})
+	it('number val', function () {
+		var a = index.real(0.5)
+		assert(a.val.eq(bigRat('0.5')))
+	})
+	it('string val', function () {
+		var a = index.real('0.5')
+		assert(a.val.eq(bigRat(0.5)))
+	})
+	it('length', function () {
+		var a = index.real('0.5')
 		assert(a.length === 0)
 	})
 })
