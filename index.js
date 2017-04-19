@@ -215,6 +215,7 @@ function evaluate(a, m) {
 		if (r)
 			return r
 	}
+	a = map(a, x => evaluate(x, m))
 	switch (a.op) {
 	case '!=':
 		if (eq(a[0], a[1]))
@@ -404,10 +405,11 @@ function lowerNot(a, sign) {
 }
 
 function map(a, f) {
-	if (!a.args)
+	if (!a.length)
 		return a
 	a = clone(a, false, 1)
-	a.args = a.args.map(f)
+	for (var i = 0; i < a.length; i++)
+		a[i] = f(a[i])
 	return a
 }
 

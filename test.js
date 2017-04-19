@@ -434,6 +434,12 @@ describe('evaluate', function () {
 			})
 		})
 	})
+	describe('recursive', function () {
+		it('true&(true&false) = false', function () {
+			var b = index.term('&', index.bool(true), index.bool(false))
+			assert(index.eq(index.evaluate(index.term('&', index.bool(true), b)), index.bool(false)))
+		})
+	})
 })
 describe('convert', function () {
 	it('constant', function () {
