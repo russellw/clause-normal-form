@@ -207,58 +207,72 @@ describe('terms', function () {
 	})
 })
 describe('eq', function () {
-	it('true = true', function () {
-		assert(index.eq(index.bool(true), index.bool(true)))
+	describe('bool', function () {
+		it('true = true', function () {
+			assert(index.eq(index.bool(true), index.bool(true)))
+		})
+		it('true != false', function () {
+			assert(!index.eq(index.bool(true), index.bool(false)))
+		})
 	})
-	it('true != false', function () {
-		assert(!index.eq(index.bool(true), index.bool(false)))
+	describe('distinct_obj', function () {
+		it('"a" = "a"', function () {
+			assert(index.eq(index.distinct_obj('a'), index.distinct_obj('a')))
+		})
+		it('"a" != "b"', function () {
+			assert(!index.eq(index.distinct_obj('a'), index.distinct_obj('b')))
+		})
 	})
-	it('"a" = "a"', function () {
-		assert(index.eq(index.distinct_obj('a'), index.distinct_obj('a')))
+	describe('integer', function () {
+		it('1 = 1', function () {
+			assert(index.eq(index.integer(1), index.integer(1)))
+		})
+		it('1 != 2', function () {
+			assert(!index.eq(index.integer(1), index.integer(2)))
+		})
 	})
-	it('"a" != "b"', function () {
-		assert(!index.eq(index.distinct_obj('a'), index.distinct_obj('b')))
+	describe('rational', function () {
+		it('1/2 = 1/2', function () {
+			assert(index.eq(index.rational('1/2'), index.rational('1/2')))
+		})
+		it('1/2 != 1/3', function () {
+			assert(!index.eq(index.rational('1/2'), index.rational('1/3')))
+		})
 	})
-	it('1 = 1', function () {
-		assert(index.eq(index.integer(1), index.integer(1)))
+	describe('fun', function () {
+		it('a = a', function () {
+			var a = index.fun()
+			assert(index.eq(a, a))
+		})
+		it('a != b', function () {
+			var a = index.fun()
+			var b = index.fun()
+			assert(!index.eq(a, b))
+		})
 	})
-	it('1 != 2', function () {
-		assert(!index.eq(index.integer(1), index.integer(2)))
+	describe('term', function () {
+		it('a&a = a&a', function () {
+			var a = index.fun()
+			assert(index.eq(index.term('&', a, a), index.term('&', a, a)))
+		})
+		it('a&a != a&b', function () {
+			var a = index.fun()
+			var b = index.fun()
+			assert(!index.eq(index.term('&', a, a), index.term('&', a, b)))
+		})
 	})
-	it('1/2 = 1/2', function () {
-		assert(index.eq(index.rational('1/2'), index.rational('1/2')))
-	})
-	it('1/2 != 1/3', function () {
-		assert(!index.eq(index.rational('1/2'), index.rational('1/3')))
-	})
-	it('a = a', function () {
-		var a = index.fun()
-		assert(index.eq(a, a))
-	})
-	it('a != b', function () {
-		var a = index.fun()
-		var b = index.fun()
-		assert(!index.eq(a, b))
-	})
-	it('a&a = a&a', function () {
-		var a = index.fun()
-		assert(index.eq(index.term('&', a, a), index.term('&', a, a)))
-	})
-	it('a&a != a&b', function () {
-		var a = index.fun()
-		var b = index.fun()
-		assert(!index.eq(index.term('&', a, a), index.term('&', a, b)))
-	})
-	it('![X]:a = ![X]:a', function () {
-		var a = index.fun()
-		var x = index.variable()
-		assert(index.eq(index.quant('!', [x], a), index.quant('!', [x], a)))
-	})
-	it('![X]:a != ![Y]:a', function () {
-		var a = index.fun()
-		var x = index.variable()
-		var y = index.variable()
-		assert(!index.eq(index.quant('!', [x], a), index.quant('!', [y], a)))
+	describe('quant', function () {
+		it('![X]:a = ![X]:a', function () {
+			var a = index.fun()
+			var x = index.variable()
+			assert(index.eq(index.quant('!', [x], a), index.quant('!', [x], a)))
+		})
+		it('![X]:a != ![Y]:a', function () {
+			var a = index.fun()
+			var x = index.variable()
+			var y = index.variable()
+			assert(!index.eq(index.quant('!', [x], a), index.quant('!', [y], a)))
+		})
 	})
 })
 describe('evaluate', function () {
