@@ -76,6 +76,13 @@ function convert1(a) {
 	}
 }
 
+function distinct_obj(name) {
+	var a = []
+	a.name = name
+	a.op = 'distinct_obj'
+	return a
+}
+
 function eliminateEqv(a) {
 	a = map(a, eliminateEqv)
 	if (a.op !== '<=>')
@@ -358,6 +365,7 @@ function variable(name) {
 
 exports.bool = bool
 exports.convert = convert
+exports.distinct_obj = distinct_obj
 exports.fun = fun
 exports.quant = quant
 exports.term = term

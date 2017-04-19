@@ -19,7 +19,25 @@ describe('bool', function () {
 		assert(a.length === 0)
 	})
 })
+describe('distinct_obj', function () {
+	it('op', function () {
+		var a = index.distinct_obj('name')
+		assert(a.op === 'distinct_obj')
+	})
+	it('name', function () {
+		var a = index.distinct_obj('name')
+		assert(a.name === 'name')
+	})
+	it('length', function () {
+		var a = index.distinct_obj('name')
+		assert(a.length === 0)
+	})
+})
 describe('fun', function () {
+	it('op', function () {
+		var a = index.fun('name')
+		assert(a.op === 'fun')
+	})
 	it('name', function () {
 		var a = index.fun('name')
 		assert(a.name === 'name')
@@ -30,6 +48,10 @@ describe('fun', function () {
 	})
 })
 describe('variable', function () {
+	it('op', function () {
+		var a = index.variable('name')
+		assert(a.op === 'var')
+	})
 	it('name', function () {
 		var a = index.variable('name')
 		assert(a.name === 'name')
@@ -52,7 +74,7 @@ describe('term', function () {
 		var a = index.term('&', x, y, z)
 		assert(a.length === 3)
 	})
-	it('arg', function () {
+	it('1st arg', function () {
 		var x = index.fun()
 		var y = index.fun()
 		var z = index.fun()
