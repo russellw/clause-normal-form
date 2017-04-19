@@ -3,118 +3,120 @@ var bigInt = require('big-integer')
 var bigRat = require('big-rational')
 var index = require('./index')
 
-describe('bool', function () {
-	it('op', function () {
-		var a = index.bool(false)
-		assert(a.op === 'bool')
+describe('atoms', function () {
+	describe('bool', function () {
+		it('op', function () {
+			var a = index.bool(false)
+			assert(a.op === 'bool')
+		})
+		it('false', function () {
+			var a = index.bool(false)
+			assert(a.val === false)
+		})
+		it('true', function () {
+			var a = index.bool(true)
+			assert(a.val === true)
+		})
+		it('length', function () {
+			var a = index.bool(false)
+			assert(a.length === 0)
+		})
 	})
-	it('false', function () {
-		var a = index.bool(false)
-		assert(a.val === false)
+	describe('distinct_obj', function () {
+		it('op', function () {
+			var a = index.distinct_obj('name')
+			assert(a.op === 'distinct_obj')
+		})
+		it('name', function () {
+			var a = index.distinct_obj('name')
+			assert(a.name === 'name')
+		})
+		it('length', function () {
+			var a = index.distinct_obj('name')
+			assert(a.length === 0)
+		})
 	})
-	it('true', function () {
-		var a = index.bool(true)
-		assert(a.val === true)
+	describe('integer', function () {
+		it('op', function () {
+			var a = index.integer('123')
+			assert(a.op === 'integer')
+		})
+		it('number val', function () {
+			var a = index.integer(123)
+			assert(a.val.eq(bigInt('123')))
+		})
+		it('string val', function () {
+			var a = index.integer('123')
+			assert(a.val.eq(bigInt(123)))
+		})
+		it('length', function () {
+			var a = index.integer('123')
+			assert(a.length === 0)
+		})
 	})
-	it('length', function () {
-		var a = index.bool(false)
-		assert(a.length === 0)
+	describe('rational', function () {
+		it('op', function () {
+			var a = index.rational('1/2')
+			assert(a.op === 'rational')
+		})
+		it('number val', function () {
+			var a = index.rational(0.5)
+			assert(a.val.eq(bigRat('1/2')))
+		})
+		it('string val', function () {
+			var a = index.rational('1/2')
+			assert(a.val.eq(bigRat(0.5)))
+		})
+		it('length', function () {
+			var a = index.rational('1/2')
+			assert(a.length === 0)
+		})
 	})
-})
-describe('distinct_obj', function () {
-	it('op', function () {
-		var a = index.distinct_obj('name')
-		assert(a.op === 'distinct_obj')
+	describe('real', function () {
+		it('op', function () {
+			var a = index.real('0.5')
+			assert(a.op === 'real')
+		})
+		it('number val', function () {
+			var a = index.real(0.5)
+			assert(a.val.eq(bigRat('0.5')))
+		})
+		it('string val', function () {
+			var a = index.real('0.5')
+			assert(a.val.eq(bigRat(0.5)))
+		})
+		it('length', function () {
+			var a = index.real('0.5')
+			assert(a.length === 0)
+		})
 	})
-	it('name', function () {
-		var a = index.distinct_obj('name')
-		assert(a.name === 'name')
+	describe('fun', function () {
+		it('op', function () {
+			var a = index.fun('name')
+			assert(a.op === 'fun')
+		})
+		it('name', function () {
+			var a = index.fun('name')
+			assert(a.name === 'name')
+		})
+		it('length', function () {
+			var a = index.fun('name')
+			assert(a.length === 0)
+		})
 	})
-	it('length', function () {
-		var a = index.distinct_obj('name')
-		assert(a.length === 0)
-	})
-})
-describe('integer', function () {
-	it('op', function () {
-		var a = index.integer('123')
-		assert(a.op === 'integer')
-	})
-	it('number val', function () {
-		var a = index.integer(123)
-		assert(a.val.eq(bigInt('123')))
-	})
-	it('string val', function () {
-		var a = index.integer('123')
-		assert(a.val.eq(bigInt(123)))
-	})
-	it('length', function () {
-		var a = index.integer('123')
-		assert(a.length === 0)
-	})
-})
-describe('rational', function () {
-	it('op', function () {
-		var a = index.rational('1/2')
-		assert(a.op === 'rational')
-	})
-	it('number val', function () {
-		var a = index.rational(0.5)
-		assert(a.val.eq(bigRat('1/2')))
-	})
-	it('string val', function () {
-		var a = index.rational('1/2')
-		assert(a.val.eq(bigRat(0.5)))
-	})
-	it('length', function () {
-		var a = index.rational('1/2')
-		assert(a.length === 0)
-	})
-})
-describe('real', function () {
-	it('op', function () {
-		var a = index.real('0.5')
-		assert(a.op === 'real')
-	})
-	it('number val', function () {
-		var a = index.real(0.5)
-		assert(a.val.eq(bigRat('0.5')))
-	})
-	it('string val', function () {
-		var a = index.real('0.5')
-		assert(a.val.eq(bigRat(0.5)))
-	})
-	it('length', function () {
-		var a = index.real('0.5')
-		assert(a.length === 0)
-	})
-})
-describe('fun', function () {
-	it('op', function () {
-		var a = index.fun('name')
-		assert(a.op === 'fun')
-	})
-	it('name', function () {
-		var a = index.fun('name')
-		assert(a.name === 'name')
-	})
-	it('length', function () {
-		var a = index.fun('name')
-		assert(a.length === 0)
-	})
-})
-describe('variable', function () {
-	it('op', function () {
-		var a = index.variable('name')
-		assert(a.op === 'variable')
-	})
-	it('name', function () {
-		var a = index.variable('name')
-		assert(a.name === 'name')
-	})
-	it('length', function () {
-		var a = index.variable('name')
-		assert(a.length === 0)
+	describe('variable', function () {
+		it('op', function () {
+			var a = index.variable('name')
+			assert(a.op === 'variable')
+		})
+		it('name', function () {
+			var a = index.variable('name')
+			assert(a.name === 'name')
+		})
+		it('length', function () {
+			var a = index.variable('name')
+			assert(a.length === 0)
+		})
 	})
 })
 describe('term', function () {
