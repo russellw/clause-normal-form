@@ -483,6 +483,17 @@ describe('evaluate', function () {
 		})
 	})
 })
+describe('occurs', function () {
+	it('a in a', function () {
+		var a = index.fun()
+		assert(index.occurs(a, a))
+	})
+	it('a !in b', function () {
+		var a = index.fun()
+		var b = index.fun()
+		assert(!index.occurs(a, b))
+	})
+})
 describe('convert', function () {
 	it('atom', function () {
 		var a = index.fun()

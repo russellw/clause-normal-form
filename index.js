@@ -361,6 +361,19 @@ function map(a, f) {
 	return a
 }
 
+function occurs(a, b, m) {
+	if (a === b)
+		return true
+	if (m) {
+		var x = m.get(b)
+		if (x)
+			return occurs(a, x, m)
+	}
+	for (var x of b)
+		if (occurs(a, x, m))
+			return true
+}
+
 function quant(op, variables, arg) {
 	assert(typeof op === 'string')
 	assert(variables.every(x => x.op === 'variable'))
@@ -461,6 +474,7 @@ exports.eq = eq
 exports.evaluate = evaluate
 exports.fun = fun
 exports.integer = integer
+exports.occurs = occurs
 exports.quant = quant
 exports.rational = rational
 exports.real = real
