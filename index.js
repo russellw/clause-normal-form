@@ -1,4 +1,5 @@
 'use strict'
+var assert = require('assert')
 var bigInt = require('big-integer')
 var bigRat = require('big-rational')
 var clone = require('clone')
@@ -17,6 +18,7 @@ function alternate(a, i, alts) {
 }
 
 function bool(val) {
+	assert(typeof val === 'boolean')
 	var a = []
 	a.op = 'bool'
 	a.val = val
