@@ -328,6 +328,21 @@ function lowerNot(a, sign) {
 	return term('~', a)
 }
 
+function lt(a, b) {
+	assert(isTerm(a))
+	assert(isTerm(b))
+	if (a === b)
+		return
+	assert(a.op === b.op)
+	switch (a.op) {
+	case 'integer':
+	case 'rational':
+	case 'real':
+		return a.val.lt(b.val)
+	}
+	throw new Error(a + ', ' + b)
+}
+
 function map(a, f) {
 	if (!a.length)
 		return a
@@ -437,6 +452,7 @@ exports.eq = eq
 exports.evaluate = evaluate
 exports.fun = fun
 exports.integer = integer
+exports.lt = lt
 exports.quant = quant
 exports.rational = rational
 exports.real = real
