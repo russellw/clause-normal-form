@@ -52,11 +52,7 @@ function convert(a) {
 function convert1(a) {
 	var variables = freeVariables(a)
 	if (variables.length)
-		a = {
-			args: [a],
-			op: '!',
-			variables,
-		}
+		a = quant('!', variables, a)
 
 	// Process steps
 	a = lowerNot(a, true)
