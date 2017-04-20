@@ -340,81 +340,31 @@ function isTerm(a) {
 function lowerNot(a, sign) {
 	switch (a.op) {
 	case '!':
-		var args = a.args.map(x => lowerNot(x, sign))
-		return {
-			args,
-			op: sign ? '!' : '?',
-			variables: a.variables,
-		}
+		return quant(sign ? '!' : '?', a.variables, lowerNot(a[0], sign))
 	case '!=':
-		return lowerNot({
-			args: a.args,
-			op: '=',
-		}, !sign)
+		return lowerNot(term('=', ...a), !sign)
 	case '&':
-		var args = a.args.map(x => lowerNot(x, sign))
-		return {
-			args,
-			op: sign ? '&' : '|',
-		}
+		return term(sign ? '&' : '|', ...a.map(x => lowerNot(x, sign)))
 	case '<=>':
-		var args = [
-			lowerNot(a[0], sign),
-			lowerNot(a[1], true),
-		]
-		return {
-			args,
-			op: '<=>',
-		}
+		return term(a.op, lowerNot(a[0], sign), lowerNot(a[1], true))
 	case '<~>':
-		return lowerNot({
-			args: a.args,
-			op: '<=>',
-		}, !sign)
+		return lowerNot(term('<=>', ...a), !sign)
 	case '=>':
-		var args = [
-			{
-				args: [a[0]],
-				op: '~',
-			},
-			a[1],
-		]
-		return lowerNot({
-			args,
-			op: '|',
-		}, sign)
+		return lowerNot(term('|', term('~', a[0]), a[1]), sign)
 	case '?':
-		var args = a.args.map(x => lowerNot(x, sign))
-		return {
-			args,
-			op: sign ? '?' : '!',
-			variables: a.variables,
-		}
+		return quant(sign ? '?' : '|', a.variables, lowerNot(a[0], sign))
 	case '|':
-		var args = a.args.map(x => lowerNot(x, sign))
-		return {
-			args,
-			op: sign ? '|' : '&',
-		}
+		return term(sign ? '|' : '&', ...a.map(x => lowerNot(x, sign)))
 	case '~':
 		return lowerNot(a[0], !sign)
 	case '~&':
-		return lowerNot({
-			args: a.args,
-			op: '&',
-		}, !sign)
+		return lowerNot(term('&', ...a), !sign)
 	case '~|':
-		return lowerNot({
-			args: a.args,
-			op: '|',
-		}, !sign)
+		return lowerNot(term('|', ...a), !sign)
 	}
 	if (sign)
 		return a
-	return {
-		args: [a],
-		op: '~',
-	}
+	return term('~', a)
 }
 
 function map(a, f) {
