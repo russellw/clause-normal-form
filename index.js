@@ -96,39 +96,14 @@ function eliminateEqv(a) {
 		if (!complex(a))
 			return a
 		var b = skolem(freeVariables(a))
-		a = {
-			args: [
-				{
-					args: [a, b],
-					op: '=>',
-				},
-				{
-					args: [b, a],
-					op: '=>',
-				},
-			],
-			op: '&',
-		}
+		a = term('&', term('=>', a, b), term('=>', b, a))
 		convert1(a)
 		return b
 	}
 
 	var x = rename(a[0])
 	var y = rename(a[1])
-	var args = [
-		{
-			args: [x, y],
-			op: '=>',
-		},
-		{
-			args: [y, x],
-			op: '=>',
-		},
-	]
-	a = {
-		args,
-		op: '&',
-	}
+	a = term('&', term('=>', x, y), term('=>', y, x))
 	a = lowerNot(a, true)
 	return a
 }
@@ -326,6 +301,7 @@ function isTerm(a) {
 }
 
 function lowerNot(a, sign) {
+	assert(typeof sign === 'boolean')
 	switch (a.op) {
 	case '!':
 		return quant(sign ? '!' : '?', a.variables, lowerNot(a[0], sign))
