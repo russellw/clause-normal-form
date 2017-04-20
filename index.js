@@ -137,30 +137,18 @@ function eliminateQuantifiers(a, bound) {
 	switch (a.op) {
 	case '!':
 		var variables = a.variables.map(x => {
-			var y = {
-				op: 'variable',
-			}
+			var y = variable()
 			bound = iop.put(bound, x, y)
 			return y
 		})
-		var args = a.args.map(x => eliminateQuantifiers(x, bound))
-		return {
-			args,
-			op: a.op,
-			variables,
-		}
+		return quant(a.op, variables, eliminateQuantifiers(a[0], bound))
 	case '?':
 		var variables = a.variables.map(x => {
 			var y = skolem(vals(bound).filter(a => a.op === 'variable'))
 			bound = iop.put(bound, x, y)
 			return y
 		})
-		var args = a.args.map(x => eliminateQuantifiers(x, bound))
-		return {
-			args,
-			op: a.op,
-			variables,
-		}
+		return quant(a.op, variables, eliminateQuantifiers(a[0], bound))
 	case 'variable':
 		var val = iop.get(bound, a)
 		if (val)
