@@ -220,7 +220,7 @@ describe('eq', function () {
 			assertEq(index.bool(true), index.bool(true))
 		})
 		it('true != false', function () {
-			assert(!index.eq(index.bool(true), index.bool(false)))
+			assertNeq(index.bool(true), index.bool(false))
 		})
 	})
 	describe('distinct_obj', function () {
@@ -228,7 +228,7 @@ describe('eq', function () {
 			assertEq(index.distinct_obj('a'), index.distinct_obj('a'))
 		})
 		it('"a" != "b"', function () {
-			assert(!index.eq(index.distinct_obj('a'), index.distinct_obj('b')))
+			assertNeq(index.distinct_obj('a'), index.distinct_obj('b'))
 		})
 	})
 	describe('integer', function () {
@@ -236,7 +236,7 @@ describe('eq', function () {
 			assertEq(index.integer(1), index.integer(1))
 		})
 		it('1 != 2', function () {
-			assert(!index.eq(index.integer(1), index.integer(2)))
+			assertNeq(index.integer(1), index.integer(2))
 		})
 	})
 	describe('rational', function () {
@@ -244,7 +244,7 @@ describe('eq', function () {
 			assertEq(index.rational('1/2'), index.rational('1/2'))
 		})
 		it('1/2 != 1/3', function () {
-			assert(!index.eq(index.rational('1/2'), index.rational('1/3')))
+			assertNeq(index.rational('1/2'), index.rational('1/3'))
 		})
 	})
 	describe('fun', function () {
@@ -255,7 +255,7 @@ describe('eq', function () {
 		it('a != b', function () {
 			var a = index.fun()
 			var b = index.fun()
-			assert(!index.eq(a, b))
+			assertNeq(a, b)
 		})
 	})
 	describe('term', function () {
@@ -266,7 +266,7 @@ describe('eq', function () {
 		it('a&a != a&b', function () {
 			var a = index.fun()
 			var b = index.fun()
-			assert(!index.eq(index.term('&', a, a), index.term('&', a, b)))
+			assertNeq(index.term('&', a, a), index.term('&', a, b))
 		})
 	})
 	describe('quant', function () {
@@ -279,7 +279,7 @@ describe('eq', function () {
 			var a = index.fun()
 			var x = index.variable()
 			var y = index.variable()
-			assert(!index.eq(index.quant('!', [x], a), index.quant('!', [y], a)))
+			assertNeq(index.quant('!', [x], a), index.quant('!', [y], a))
 		})
 	})
 })
