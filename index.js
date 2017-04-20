@@ -310,7 +310,7 @@ function isConst(a) {
 }
 
 function isTerm(a) {
-	if (a.constructor !== Array)
+	if (!Array.isArray(a))
 		return
 	if (typeof a.op !== 'string')
 		return
