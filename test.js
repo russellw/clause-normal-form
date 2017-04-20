@@ -3,6 +3,14 @@ var bigInt = require('big-integer')
 var bigRat = require('big-rational')
 var index = require('./index')
 
+function assertEq(a, b) {
+	assert(index.eq(a, b))
+}
+
+function assertNeq(a, b) {
+	assert(!index.eq(a, b))
+}
+
 describe('atoms', function () {
 	describe('bool', function () {
 		it('op', function () {
