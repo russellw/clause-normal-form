@@ -356,10 +356,7 @@ function raiseAnd(a) {
 		if (!complex(a))
 			return a
 		var b = skolem(freeVariables(a))
-		a = {
-			args: [b, a],
-			op: '=>',
-		}
+		a = term('=>', b, a)
 		convert1(a)
 		return b
 	}
@@ -369,11 +366,11 @@ function raiseAnd(a) {
 		return map(a, raiseAnd)
 	case '|':
 		a = map(a, raiseAnd)
-		if (iop.count(a.args, x => x.op === '&') === 1) {
+		if (iop.count(a, x => x.op === '&') === 1) {
 			var cs = []
-			var i = a.args.findIndex(x => x.op === '&')
+			var i = a.findIndex(x => x.op === '&')
 			flatten('&', a[i], cs)
-			cs = alternate(a.args, i, cs)
+			cs = alternate(a, i, cs)
 			return {
 				args: cs,
 				op: '&',
