@@ -297,6 +297,19 @@ function isTerm(a) {
 	return true
 }
 
+function leq(a, b) {
+	assert(isTerm(a))
+	assert(isTerm(b))
+	assert(a.op === b.op)
+	switch (a.op) {
+	case 'integer':
+	case 'rational':
+	case 'real':
+		return a.val.leq(b.val)
+	}
+	throw new Error(a + ', ' + b)
+}
+
 function lowerNot(a, sign) {
 	assert(typeof sign === 'boolean')
 	switch (a.op) {
@@ -331,8 +344,6 @@ function lowerNot(a, sign) {
 function lt(a, b) {
 	assert(isTerm(a))
 	assert(isTerm(b))
-	if (a === b)
-		return
 	assert(a.op === b.op)
 	switch (a.op) {
 	case 'integer':
@@ -452,6 +463,7 @@ exports.eq = eq
 exports.evaluate = evaluate
 exports.fun = fun
 exports.integer = integer
+exports.leq = leq
 exports.lt = lt
 exports.quant = quant
 exports.rational = rational

@@ -293,6 +293,24 @@ describe('lt', function () {
 		})
 	})
 })
+describe('leq', function () {
+	describe('integer', function () {
+		it('1 <= 1', function () {
+			assert(index.leq(index.integer(1), index.integer(1)))
+		})
+		it('2 !<= 1', function () {
+			assert(!index.leq(index.integer(2), index.integer(1)))
+		})
+	})
+	describe('rational', function () {
+		it('1/2 <= 2/3', function () {
+			assert(index.leq(index.rational('1/2'), index.rational('2/3')))
+		})
+		it('2/3 !<= 1/2', function () {
+			assert(!index.leq(index.rational('2/3'), index.rational('1/2')))
+		})
+	})
+})
 describe('evaluate', function () {
 	describe('atom', function () {
 		it('a = a', function () {
