@@ -203,14 +203,26 @@ function evaluate(a, m) {
 	case '<':
 		if (eq(a[0], a[1]))
 			return bool(false)
-		if (isConst(a[0]) && isConst(a[1]))
-			return bool(lt(a[0], a[1]))
+		if (a[0].op !== a[1].op)
+			break
+		switch (a[0].op) {
+		case 'integer':
+		case 'rational':
+		case 'real':
+			return bool(a[0].val.lt(a[1].val))
+		}
 		break
 	case '<=':
 		if (eq(a[0], a[1]))
 			return bool(true)
-		if (isConst(a[0]) && isConst(a[1]))
-			return bool(leq(a[0], a[1]))
+		if (a[0].op !== a[1].op)
+			break
+		switch (a[0].op) {
+		case 'integer':
+		case 'rational':
+		case 'real':
+			return bool(a[0].val.leq(a[1].val))
+		}
 		break
 	case '=':
 		if (eq(a[0], a[1]))
@@ -309,19 +321,6 @@ function isTerm(a) {
 	return true
 }
 
-function leq(a, b) {
-	assert(isTerm(a))
-	assert(isTerm(b))
-	assert(a.op === b.op)
-	switch (a.op) {
-	case 'integer':
-	case 'rational':
-	case 'real':
-		return a.val.leq(b.val)
-	}
-	throw new Error(a + ', ' + b)
-}
-
 function lowerNot(a, sign) {
 	assert(typeof sign === 'boolean')
 	switch (a.op) {
@@ -351,19 +350,6 @@ function lowerNot(a, sign) {
 	if (sign)
 		return a
 	return term('~', a)
-}
-
-function lt(a, b) {
-	assert(isTerm(a))
-	assert(isTerm(b))
-	assert(a.op === b.op)
-	switch (a.op) {
-	case 'integer':
-	case 'rational':
-	case 'real':
-		return a.val.lt(b.val)
-	}
-	throw new Error(a + ', ' + b)
 }
 
 function map(a, f) {
@@ -475,8 +461,6 @@ exports.eq = eq
 exports.evaluate = evaluate
 exports.fun = fun
 exports.integer = integer
-exports.leq = leq
-exports.lt = lt
 exports.quant = quant
 exports.rational = rational
 exports.real = real
