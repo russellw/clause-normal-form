@@ -545,10 +545,17 @@ describe('unify', function () {
 	})
 })
 describe('convert', function () {
-	it('atom', function () {
+	it('a -> [a]', function () {
 		var a = index.fun()
-		var r = a
-		var clauses = index.term('&', index.term('|', r))
+		var clauses = index.term('&')
+		clauses.push(index.term('|', a))
+		assert(index.eq(index.convert(a), clauses))
+	})
+	it('a=b -> [a=b]', function () {
+		var a = index.fun()
+		var b = index.fun()
+		var clauses = index.term('&')
+		clauses.push(index.term('|', index.term('=', a, b)))
 		assert(index.eq(index.convert(a), clauses))
 	})
 })
