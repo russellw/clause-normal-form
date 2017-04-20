@@ -44,7 +44,7 @@ function complex(a) {
 
 function convert(a) {
 	assert(isTerm(a))
-	clauses = []
+	clauses = term('&')
 	convert1(a)
 	return clauses
 }
@@ -70,12 +70,9 @@ function convert1(a) {
 
 	// Flatten |
 	for (var c of cs) {
-		var literals = []
-		flatten('|', c, literals)
-		clauses.push({
-			args: literals,
-			op: '|',
-		})
+		var clause = term('|')
+		flatten('|', c, clause)
+		clauses.push(clause)
 	}
 }
 
@@ -371,10 +368,7 @@ function raiseAnd(a) {
 			var i = a.findIndex(x => x.op === '&')
 			flatten('&', a[i], cs)
 			cs = alternate(a, i, cs)
-			return {
-				args: cs,
-				op: '&',
-			}
+			return term('&', ...cs)
 		}
 		return map(a, x => x.op === '&' ? rename(x) : x)
 	}
