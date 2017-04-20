@@ -470,6 +470,27 @@ describe('evaluate', function () {
 			})
 		})
 	})
+	describe('leq', function () {
+		describe('constant', function () {
+			it('1 <= 1', function () {
+				assert(index.eq(index.evaluate(index.term('<=', index.integer(1), index.integer(1))), index.bool(true)))
+			})
+			it('2 !<= 1', function () {
+				assert(index.eq(index.evaluate(index.term('<=', index.integer(2), index.integer(1))), index.bool(false)))
+			})
+		})
+		describe('variable', function () {
+			it('a <= a', function () {
+				var a = index.fun()
+				assert(index.eq(index.evaluate(index.term('<=', a, a)), index.bool(true)))
+			})
+			it('a ?<= b', function () {
+				var a = index.fun()
+				var b = index.fun()
+				assert(index.eq(index.evaluate(index.term('<=', a, b)), index.term('<=', a, b)))
+			})
+		})
+	})
 	describe('recursive', function () {
 		it('true&(true&false) = false', function () {
 			var b = index.term('&', index.bool(true), index.bool(false))

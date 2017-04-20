@@ -200,6 +200,12 @@ function evaluate(a, m) {
 		if (a.some(eqFalse))
 			return bool(false)
 		break
+	case '<=':
+		if (eq(a[0], a[1]))
+			return bool(true)
+		if (isConst(a[0]) && isConst(a[1]))
+			return bool(leq(a[0], a[1]))
+		break
 	case '=':
 		if (eq(a[0], a[1]))
 			return bool(true)
