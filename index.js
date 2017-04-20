@@ -231,7 +231,7 @@ function evaluate(a, m) {
 
 function flatten(op, a, cs) {
 	if (a.op === op)
-		for (var x of a.args) {
+		for (var x of a) {
 			flatten(op, x, cs)
 			return
 		}
@@ -253,7 +253,7 @@ function freeVariables(a) {
 				r.add(a)
 			break
 		}
-		for (var x of a.args)
+		for (var x of a)
 			rec(x, bound)
 	}
 
