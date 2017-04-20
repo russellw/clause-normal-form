@@ -43,8 +43,7 @@ function complex(a) {
 }
 
 function convert(a) {
-	if (typeof a.op !== 'string')
-		throw new Error(a)
+	assert(isTerm(a))
 	clauses = []
 	convert1(a)
 	return clauses
@@ -81,6 +80,7 @@ function convert1(a) {
 }
 
 function distinct_obj(name) {
+	assert(typeof name === 'string')
 	var a = []
 	a.name = name
 	a.op = 'distinct_obj'
@@ -171,6 +171,8 @@ function eliminateQuantifiers(a, bound) {
 }
 
 function eq(a, b) {
+	assert(isTerm(a))
+	assert(isTerm(b))
 	if (a === b)
 		return true
 	if (a.op !== b.op)
@@ -212,6 +214,7 @@ function eqTrue(a) {
 }
 
 function evaluate(a, m) {
+	assert(isTerm(a))
 	if (m) {
 		var r = m.get(a)
 		if (r)
@@ -326,6 +329,14 @@ function isConst(a) {
 	}
 }
 
+function isTerm(a) {
+	if (a.constructor !== Array)
+		return
+	if (typeof a.op !== 'string')
+		return
+	return true
+}
+
 function lowerNot(a, sign) {
 	switch (a.op) {
 	case '!':
@@ -416,6 +427,9 @@ function map(a, f) {
 }
 
 function quant(op, variables, arg) {
+	assert(typeof op === 'string')
+	assert(variables.every(x => x.op === 'variable'))
+	assert(isTerm(arg))
 	var a = [arg]
 	a.op = op
 	a.variables = variables
