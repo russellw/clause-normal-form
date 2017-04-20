@@ -365,9 +365,9 @@ function occurs(a, b, m) {
 	if (a === b)
 		return true
 	if (m) {
-		var x = m.get(b)
-		if (x)
-			return occurs(a, x, m)
+		var b1 = m.get(b)
+		if (b1)
+			return occurs(a, b1, m)
 	}
 	for (var x of b)
 		if (occurs(a, x, m))
@@ -454,6 +454,42 @@ function term(op, ...args) {
 	return a
 }
 
+function unify(a, b, m=new Map()) {
+	if (a === b)
+		return m
+	if (a.op === 'variable')
+		return unifyVariable(a, b, m)
+	if (b.op === 'variable')
+		return unifyVariable(b, a, m)
+	if (a.op !== b.op)
+		return
+	if (a.fun !== b.fun)
+		return
+	if (!a.length) {
+		if (eq(a, b))
+			return m
+		return
+	}
+	if (a.length !== b.length)
+		return
+	for (var i = 0; i < a.length && m; i++)
+		m = unify(a[i], b[i], m)
+	return m
+}
+
+function unifyVariable(a, b, m) {
+	var a1 = m.get(a)
+	if (a1)
+		return unify(a1, b, m)
+	var b1 = m.get(b)
+	if (b1)
+		return unify(a, b1, m)
+	if (occurs(a, b, m))
+		return
+	m.set(a, b)
+	return m
+}
+
 function vals(m) {
 	for (var r = []; m; m = m.outer)
 		r.push(m.val)
@@ -479,4 +515,5 @@ exports.quant = quant
 exports.rational = rational
 exports.real = real
 exports.term = term
+exports.unify = unify
 exports.variable = variable

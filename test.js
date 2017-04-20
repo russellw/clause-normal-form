@@ -3,14 +3,6 @@ var bigInt = require('big-integer')
 var bigRat = require('big-rational')
 var index = require('./index')
 
-function assertFalse(a) {
-	assert(index.eq(a, index.bool(false)))
-}
-
-function assertTrue(a) {
-	assert(index.eq(a, index.bool(true)))
-}
-
 describe('atoms', function () {
 	describe('bool', function () {
 		it('op', function () {
@@ -512,6 +504,17 @@ describe('occurs', function () {
 		var a = index.fun()
 		var b = index.fun()
 		assert(index.occurs(a, index.term('&', a, b)))
+	})
+})
+describe('unify', function () {
+	it('unify(a, a)', function () {
+		var a = index.fun()
+		assert(index.unify(a, a))
+	})
+	it('!unify(a, b)', function () {
+		var a = index.fun()
+		var b = index.fun()
+		assert(!index.unify(a, b))
 	})
 })
 describe('convert', function () {
