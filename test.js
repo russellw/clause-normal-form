@@ -539,6 +539,10 @@ describe('unify', function () {
 		var b = index.fun()
 		assert(index.unify(index.term('&', a, b), index.term('&', a, b)))
 	})
+	it('!unify(X, ~X)', function () {
+		var x = index.variable()
+		assert(!index.unify(x, index.term('~', x)))
+	})
 })
 describe('convert', function () {
 	it('atom', function () {
