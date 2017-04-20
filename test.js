@@ -516,6 +516,29 @@ describe('unify', function () {
 		var b = index.fun()
 		assert(!index.unify(a, b))
 	})
+	it('unify(1, 1)', function () {
+		assert(index.unify(index.integer(1), index.integer(1)))
+	})
+	it('!unify(1, 2)', function () {
+		assert(!index.unify(index.integer(1), index.integer(2)))
+	})
+	it('unify(a, X) = X:a', function () {
+		var a = index.fun()
+		var x = index.variable()
+		var m = index.unify(a, x)
+		assert(m.get(x) === a)
+	})
+	it('unify(X, a) = X:a', function () {
+		var a = index.fun()
+		var x = index.variable()
+		var m = index.unify(x, a)
+		assert(m.get(x) === a)
+	})
+	it('unify(a&b, a&b)', function () {
+		var a = index.fun()
+		var b = index.fun()
+		assert(index.unify(index.term('&', a, b), index.term('&', a, b)))
+	})
 })
 describe('convert', function () {
 	it('atom', function () {
