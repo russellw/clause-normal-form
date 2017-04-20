@@ -564,6 +564,6 @@ describe('convert', function () {
 		var b = index.fun()
 		var clauses = index.term('&')
 		clauses.push(index.term('|', index.term('=', a, b)))
-		assertEq(index.convert(a), clauses)
+		assertEq(index.convert(index.term('=', a, b)), clauses)
 	})
 })
