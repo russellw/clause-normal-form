@@ -493,6 +493,18 @@ describe('occurs', function () {
 		var b = index.fun()
 		assert(!index.occurs(a, b))
 	})
+	it('a !in b/b:a', function () {
+		var a = index.fun()
+		var b = index.fun()
+		var m = new Map()
+		m.set(b, a)
+		assert(index.occurs(a, b, m))
+	})
+	it('a in a&b', function () {
+		var a = index.fun()
+		var b = index.fun()
+		assert(index.occurs(a, index.term('&', a, b)))
+	})
 })
 describe('convert', function () {
 	it('atom', function () {
