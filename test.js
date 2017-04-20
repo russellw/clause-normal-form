@@ -442,16 +442,10 @@ describe('evaluate', function () {
 	})
 })
 describe('convert', function () {
-	it('constant', function () {
-		var a = {
-			args: [],
-			op: 'fun',
-		}
-		var c = {
-			args: [a],
-			op: '|',
-		}
-		var cs = [c]
-		assert.deepEqual(index.convert(a), cs)
+	it('atom', function () {
+		var a = index.fun()
+		var r = a
+		var clauses = index.term('&', index.term('|', r))
+		assert(index.eq(index.convert(a), clauses))
 	})
 })
