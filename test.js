@@ -470,7 +470,7 @@ describe('evaluate', function () {
 			})
 		})
 	})
-	describe('lt', function () {
+	describe('<', function () {
 		describe('constant', function () {
 			it('1 < 2', function () {
 				assert(index.eq(index.evaluate(index.term('<', index.integer(1), index.integer(2))), index.bool(true)))
@@ -491,7 +491,7 @@ describe('evaluate', function () {
 			})
 		})
 	})
-	describe('leq', function () {
+	describe('<=', function () {
 		describe('constant', function () {
 			it('1 <= 1', function () {
 				assert(index.eq(index.evaluate(index.term('<=', index.integer(1), index.integer(1))), index.bool(true)))
