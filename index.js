@@ -25,6 +25,13 @@ function bool(val) {
 	return a
 }
 
+function call(f, args) {
+	var a = Array.from(args)
+	a.op = 'call'
+	a.f = f
+	return a
+}
+
 function complex(a) {
 	switch (a.op) {
 	case '!':
@@ -500,6 +507,7 @@ function variable(name) {
 }
 
 exports.bool = bool
+exports.call = call
 exports.convert = convert
 exports.distinct_obj = distinct_obj
 exports.eq = eq

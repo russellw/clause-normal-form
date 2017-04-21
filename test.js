@@ -566,4 +566,14 @@ describe('convert', function () {
 		clauses.push(index.term('|', index.term('=', a, b)))
 		assertEq(index.convert(index.term('=', a, b)), clauses)
 	})
+	it('f(X) -> [f(Y)]', function () {
+		var f = index.fun()
+		var x = index.variable()
+		var a = index.call(f, [x])
+		var clauses = index.convert(a)
+		var b = clauses[0][0]
+		var m = index.unify(a, b)
+		var y = m.get(x)
+		assert(y.op === 'variable')
+	})
 })
