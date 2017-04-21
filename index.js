@@ -6,6 +6,8 @@ var clone = require('clone')
 var iop = require('iop')
 
 var clauses
+var funCount = 0
+var variableCount = 0
 
 function alternate(a, i, alts) {
 	var r = []
@@ -324,6 +326,20 @@ function isTerm(a) {
 	return true
 }
 
+function letter(n) {
+	if (n < 26)
+		return String.fromCharCode(65 + n)
+	return 'Z' + (n - 25)
+}
+
+function log(a) {
+	if (!isTerm(a)) {
+		console.log(a)
+		return
+	}
+	console.log(string(a))
+}
+
 function lowerNot(a, sign) {
 	assert(typeof sign === 'boolean')
 	switch (a.op) {
@@ -451,6 +467,27 @@ function skolem(args) {
 	}
 }
 
+function string(a) {
+	switch (a.op) {
+	case 'bool':
+	case 'integer':
+	case 'rational':
+	case 'real':
+		return a.val
+	case 'distinct_obj':
+		return '"' + a.name + '"'
+	case 'fun':
+		if (!a.name)
+			a.name = letter(funCount++).toLowerCase()
+		return a.name
+	case 'variable':
+		if (!a.name)
+			a.name = letter(variableCount++)
+		return a.name
+	}
+	return '(' + a.map(string).join(' ') + ')'
+}
+
 function term(op, ...args) {
 	var a = Array.from(args)
 	a.op = op
@@ -514,6 +551,7 @@ exports.eq = eq
 exports.evaluate = evaluate
 exports.fun = fun
 exports.integer = integer
+exports.log = log
 exports.occurs = occurs
 exports.quant = quant
 exports.rational = rational
