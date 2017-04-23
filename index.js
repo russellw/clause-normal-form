@@ -23,6 +23,9 @@ function bool(val) {
 	assert(typeof val === 'boolean')
 	var a = []
 	a.op = 'bool'
+	a.toString = function () {
+		return this.val
+	}
 	a.val = val
 	return a
 }
@@ -31,6 +34,9 @@ function call(f, args) {
 	var a = Array.from(args)
 	a.op = 'call'
 	a.f = f
+	a.toString = function () {
+		return this.f + '(' + this.map(string).join(', ') + ')'
+	}
 	return a
 }
 
@@ -86,6 +92,9 @@ function distinct_obj(name) {
 	var a = []
 	a.name = name
 	a.op = 'distinct_obj'
+	a.toString = function () {
+		return '"' + this.name + '"'
+	}
 	return a
 }
 
@@ -291,6 +300,11 @@ function fun(name) {
 	var a = []
 	a.name = name
 	a.op = 'fun'
+	a.toString = function () {
+		if (!this.name)
+			this.name = letter(funCount++).toLowerCase()
+		return this.name
+	}
 	return a
 }
 
@@ -303,6 +317,9 @@ function integer(val) {
 	}
 	var a = []
 	a.op = 'integer'
+	a.toString = function () {
+		return this.val
+	}
 	a.val = val
 	return a
 }
@@ -330,14 +347,6 @@ function letter(n) {
 	if (n < 26)
 		return String.fromCharCode(65 + n)
 	return 'Z' + (n - 25)
-}
-
-function log(a) {
-	if (!isTerm(a)) {
-		console.log(a)
-		return
-	}
-	console.log(string(a))
 }
 
 function lowerNot(a, sign) {
@@ -399,6 +408,9 @@ function quant(op, variables, arg) {
 	assert(isTerm(arg))
 	var a = [arg]
 	a.op = op
+	a.toString = function () {
+		return this.op + '[' + this.variables.map(string).join(', ') + ']: ' + this[0]
+	}
 	a.variables = variables
 	return a
 }
@@ -440,6 +452,9 @@ function rational(val) {
 	}
 	var a = []
 	a.op = 'rational'
+	a.toString = function () {
+		return this.val
+	}
 	a.val = val
 	return a
 }
@@ -453,6 +468,9 @@ function real(val) {
 	}
 	var a = []
 	a.op = 'real'
+	a.toString = function () {
+		return this.val
+	}
 	a.val = val
 	return a
 }
@@ -467,30 +485,12 @@ function skolem(args) {
 	}
 }
 
-function string(a) {
-	switch (a.op) {
-	case 'bool':
-	case 'integer':
-	case 'rational':
-	case 'real':
-		return a.val
-	case 'distinct_obj':
-		return '"' + a.name + '"'
-	case 'fun':
-		if (!a.name)
-			a.name = letter(funCount++).toLowerCase()
-		return a.name
-	case 'variable':
-		if (!a.name)
-			a.name = letter(variableCount++)
-		return a.name
-	}
-	return '(' + a.map(string).join(' ') + ')'
-}
-
 function term(op, ...args) {
 	var a = Array.from(args)
 	a.op = op
+	a.toString = function () {
+		return op + '(' + this.map(string).join(', ') + ')'
+	}
 	return a
 }
 
@@ -540,6 +540,11 @@ function variable(name) {
 	var a = []
 	a.name = name
 	a.op = 'variable'
+	a.toString = function () {
+		if (!this.name)
+			this.name = letter(variableCount++)
+		return this.name
+	}
 	return a
 }
 
@@ -551,7 +556,6 @@ exports.eq = eq
 exports.evaluate = evaluate
 exports.fun = fun
 exports.integer = integer
-exports.log = log
 exports.occurs = occurs
 exports.quant = quant
 exports.rational = rational
