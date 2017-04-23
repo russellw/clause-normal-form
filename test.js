@@ -559,6 +559,12 @@ describe('convert', function () {
 		clauses.push(index.term('|', a))
 		assertEq(index.convert(a), clauses)
 	})
+	it('~~a -> [a]', function () {
+		var a = index.fun()
+		var clauses = index.term('&')
+		clauses.push(index.term('|', a))
+		assertEq(index.convert(index.term('~', index.term('~', a))), clauses)
+	})
 	it('a=b -> [a=b]', function () {
 		var a = index.fun()
 		var b = index.fun()
