@@ -35,7 +35,7 @@ function call(f, args) {
 	a.op = 'call'
 	a.f = f
 	a.toString = function () {
-		return this.f + '(' + this.map(string).join(', ') + ')'
+		return this.f + '(' + this.join(', ') + ')'
 	}
 	return a
 }
@@ -489,7 +489,7 @@ function term(op, ...args) {
 	var a = Array.from(args)
 	a.op = op
 	a.toString = function () {
-		return op + '(' + this.map(string).join(', ') + ')'
+		return op + '(' + this.join(', ') + ')'
 	}
 	return a
 }
