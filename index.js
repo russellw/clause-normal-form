@@ -409,7 +409,7 @@ function quant(op, variables, arg) {
 	var a = [arg]
 	a.op = op
 	a.toString = function () {
-		return this.op + '[' + this.variables.map(string).join(', ') + ']: ' + this[0]
+		return this.op + '[' + this.variables.join(', ') + ']: ' + this[0]
 	}
 	a.variables = variables
 	return a
