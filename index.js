@@ -122,19 +122,17 @@ function eliminateEqv(a) {
 function eliminateQuantifiers(a, bound) {
 	switch (a.op) {
 	case '!':
-		var variables = a.variables.map(x => {
+		for (var x of a.variables) {
 			var y = variable()
 			bound = iop.put(bound, x, y)
-			return y
-		})
-		return quant(a.op, variables, eliminateQuantifiers(a[0], bound))
+		}
+		return eliminateQuantifiers(a[0], bound)
 	case '?':
-		var variables = a.variables.map(x => {
+		for (var x of a.variables) {
 			var y = skolem(vals(bound).filter(a => a.op === 'variable'))
 			bound = iop.put(bound, x, y)
-			return y
-		})
-		return quant(a.op, variables, eliminateQuantifiers(a[0], bound))
+		}
+		return eliminateQuantifiers(a[0], bound)
 	case 'variable':
 		var val = iop.get(bound, a)
 		if (val)
