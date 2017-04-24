@@ -6,4 +6,8 @@ The `op` property indicates the operator, or kind of term. The following operato
 
 |Category|Operator|Arity|Description|Special properties|
 |---|---|---|---|---|
-|Constant|0|`bool`|Boolean constant|`val`|
+|Constant|0|`bool`|Boolean constant|`val`: `true` or `false`|
+|||`distinct_obj`|Distinct object|`name`: a string|
+|||`integer`|Arbitrary-precision integer constant|`val`: a `big-integer`|
+|||`rational`|Arbitrary-precision rational constant|`val`: a `big-rational`|
+|||`real`|Arbitrary-precision rational constant typed as a real number|`val`: a `big-rational`|
