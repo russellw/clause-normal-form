@@ -4,10 +4,10 @@ Specifically, terms are represented as arrays with extra properties. The array r
 
 The `op` property indicates the operator, or kind of term. The following operators are currently defined:
 
-|Category|Operator|Arity|Description|Special properties|
+|Category|Arity|Operator|Description|Special properties|
 |---|---|---|---|---|
-|Constant|0|`bool`|Boolean constant|`val`: `true` or `false`|
-|||`distinct_obj`|Distinct object|`name`: a string|
-|||`integer`|Arbitrary-precision integer constant|`val`: a `big-integer`|
-|||`rational`|Arbitrary-precision rational constant|`val`: a `big-rational`|
-|||`real`|Arbitrary-precision rational constant typed as a real number|`val`: a `big-rational`|
+|Constant|0|`bool`|Boolean constant|`val`|
+|||`distinct_obj`|Distinct object|`name`|
+|||`integer`|Arbitrary-precision integer constant using the `big-integer` package|`val`|
+|||`rational`|Arbitrary-precision rational constant using the `big-rational` package|`val`|
+|||`real`|Arbitrary-precision rational constant using the `big-rational` package, typed as a real number|`val`|
