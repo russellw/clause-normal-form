@@ -96,3 +96,37 @@ term(op, ...args)
 ```
 
 Other term; anything that requires operator and arguments but no other properties.
+
+### Other functions
+
+In general, a function may indicate true or false by returning any truthy or falsy value respectively.
+
+```
+convert(a)
+```
+
+Convert a term to clause normal form.
+
+```
+eq(a, b)
+```
+
+Test two terms for equality.
+
+```
+evaluate(a, m)
+```
+
+Evaluate a term, looking up substitutions in the `Map` m.
+
+```
+occurs(a, b, m)
+```
+
+Check whether term a occurs in term b, looking up substitutions in the `Map` m.
+
+```
+unify(a, b, m=new Map())
+```
+
+Unify two terms, returning a map of substitutions, or false if the terms could not be unified.
