@@ -24,9 +24,71 @@ Category|Arity|Operator|Description|Properties
 |||`\|`|Or||
 ||1|`~`|Not||
 |Equality|2|`=`|Equal||
-|||`=`|Not equal||
+|||`!=`|Not equal||
 |Comparison||`<`|Less than||
 |||`<=`|Less than or equal||
 |||`>`|Greater than||
 |||`>=`|Greater than or equal||
 |General|N|`call`|Call a function|`f`|
+
+Terms are created with factory functions:
+
+```
+bool(val)
+```
+
+Boolean constant.
+
+```
+distinct_obj(name)
+```
+
+Distinct object. Two distinct objects are equal if and only if they have the same name.
+
+```
+integer(val)
+```
+
+Arbitrary-precision integer constant. `val` may be a `big-integer` object, or a string or number convertible to one.
+
+```
+rational(val)
+```
+
+Arbitrary-precision rational constant. `val` may be a `big-rational` object, or a string or number convertible to one.
+
+```
+real(val)
+```
+
+Arbitrary-precision rational constant typed as a real number. `val` may be a `big-rational` object, or a string or number convertible to one.
+
+```
+fun([name])
+```
+
+Function or constant. Name is optional, mostly used for debugging.
+
+```
+variable([name])
+```
+
+Variable. Name is optional, mostly used for debugging.
+
+```
+call(f, args)
+```
+
+Call (application) of a function with an array of arguments.
+
+```
+quant(op, variables, arg)
+```
+
+Quantifier: bind an array of variables over a term.
+
+```
+term(op, ...args)
+```
+
+Other term; anything that requires operator and arguments but no other properties.
