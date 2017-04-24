@@ -4,7 +4,7 @@ Specifically, terms are represented as arrays with extra properties. The array r
 
 The `op` property indicates the operator, or kind of term. Operator names follow TPTP syntax where applicable. The following operators are currently defined:
 
-|Category|Arity|Operator|Description|Special properties|
+Category|Arity|Operator|Description|Properties
 |---|---|---|---|---|
 |Constant|0|`bool`|Boolean constant|`val`|
 |||`distinct_obj`|Distinct object|`name`|
@@ -13,3 +13,5 @@ The `op` property indicates the operator, or kind of term. Operator names follow
 |||`real`|Arbitrary-precision rational constant using the `big-rational` package, typed as a real number|`val`|
 |Atom||`fun`|Function or constant|`name` (optional)|
 |||`variable`|Variable|`name` (optional)|
+|Quantifier|1|`!`|For all: binds an array of variables over a term|`variables`|
+|||`?`|There exists: binds an array of variables over a term|`variables`|
