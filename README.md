@@ -20,3 +20,13 @@ Category|Arity|Operator|Description|Properties
 |||`<~>`|Xor||
 |||`~&`|Nand||
 |||`~\|`|Nor||
+|Fundamental logic operator|N|`&`|And||
+|||`|`|Or||
+||1|`~`|Not||
+|Equality|2|`=`|Equal||
+|||`=`|Not equal||
+|Comparison||`<`|Less than||
+|||`<=`|Less than or equal||
+|||`>`|Greater than||
+|||`>=`|Greater than or equal||
+|General|N|`call`|Call a function|`f`|
