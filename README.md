@@ -19,4 +19,4 @@ Category|Arity|Operator|Description|Properties
 |||`<=>`|Eqv||
 |||`<~>`|Xor||
 |||`~&`|Nand||
-|||`~|`|Nor||
+|||`~\|`|Nor||
