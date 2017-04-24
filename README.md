@@ -4,6 +4,6 @@ Specifically, terms are represented as arrays with extra properties. The array r
 
 The `op` property indicates the operator, or kind of term. The following operators are currently defined:
 
-|Operator|Description|Special properties|
-|---|---|---|
-|bool|Boolean constant|val|
+|Category|Operator|Arity|Description|Special properties|
+|---|---|---|---|---|
+|Constant|0|`bool`|Boolean constant|`val`|
