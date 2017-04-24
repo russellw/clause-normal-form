@@ -21,7 +21,7 @@ Category|Arity|Operator|Description|Properties
 |||`<=>`|Eqv||
 |||`<~>`|Xor||
 |||`~&`|Nand||
-|||`~&vert;`|Nor||
+|||~&vert;|Nor||
 |Fundamental logic operator|N|`&`|And||
 |||&vert;|Or||
 ||1|`~`|Not||
