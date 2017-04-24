@@ -2,6 +2,8 @@ Logic terms represented as clauses.
 
 Specifically, terms are represented as arrays with extra properties. The array representation makes it easy to write recursive functions over terms. Even atoms are represented as zero-length arrays, minimizing special cases.
 
+### Operators
+
 The `op` property indicates the operator, or kind of term. Operator names follow TPTP syntax where applicable. The following operators are currently defined:
 
 Category|Arity|Operator|Description|Properties
@@ -30,6 +32,8 @@ Category|Arity|Operator|Description|Properties
 |||`>`|Greater than||
 |||`>=`|Greater than or equal||
 |General|N|`call`|Call a function|`f`|
+
+### Factory functions
 
 Terms are created with factory functions:
 
