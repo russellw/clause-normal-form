@@ -23,7 +23,7 @@ Category|Arity|Operator|Description|Properties
 |||`~&`|Nand||
 |||`~&vert;`|Nor||
 |Fundamental logic operator|N|`&`|And||
-|||`&vert;`|Or||
+|||<code>&vert;</code>|Or||
 ||1|`~`|Not||
 |Equality|2|`=`|Equal||
 |||`!=`|Not equal||
