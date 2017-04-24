@@ -15,3 +15,8 @@ Category|Arity|Operator|Description|Properties
 |||`variable`|Variable|`name` (optional)|
 |Quantifier|1|`!`|For all: binds an array of variables over a term|`variables`|
 |||`?`|There exists: binds an array of variables over a term|`variables`|
+|Derived logic operator|2|`=>`|Implies||
+|||`<=>`|Eqv||
+|||`<~>`|Xor||
+|||`~&`|Nand||
+|||`~|`|Nor||
