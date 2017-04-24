@@ -11,5 +11,5 @@ The `op` property indicates the operator, or kind of term. Operator names follow
 |||`integer`|Arbitrary-precision integer constant using the `big-integer` package|`val`|
 |||`rational`|Arbitrary-precision rational constant using the `big-rational` package|`val`|
 |||`real`|Arbitrary-precision rational constant using the `big-rational` package, typed as a real number|`val`|
-|Atom||`fun`|Function or constant|[`name`]|
-|||`variable`|Variable|[`name`]|
+|Atom||`fun`|Function or constant|`name` (optional)|
+|||`variable`|Variable|`name` (optional)|
