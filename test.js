@@ -225,10 +225,13 @@ describe('eq', function () {
 	})
 	describe('distinct_obj', function () {
 		it('"a" = "a"', function () {
-			assertEq(index.distinct_obj('a'), index.distinct_obj('a'))
+			var a = index.distinct_obj('a')
+			assertEq(a, a)
 		})
 		it('"a" != "b"', function () {
-			assertNeq(index.distinct_obj('a'), index.distinct_obj('b'))
+			var a = index.distinct_obj('a')
+			var b = index.distinct_obj('b')
+			assertNeq(a, b)
 		})
 	})
 	describe('integer', function () {

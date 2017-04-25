@@ -165,7 +165,6 @@ function eq(a, b) {
 	case 'bool':
 		return a.val === b.val
 	case 'distinct_obj':
-		return a.name === b.name
 	case 'fun':
 	case 'variable':
 		return

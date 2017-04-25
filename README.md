@@ -47,7 +47,7 @@ Boolean constant.
 distinct_obj(name)
 ```
 
-Distinct object. Two distinct objects are equal if and only if they have the same name.
+Distinct object, as defined in the TPTP: it is an axiom that two different distinct objects are not equal to each other. (By contrast, two different variables may or may not be equal to each other.)
 
 ```
 integer(val)
