@@ -343,40 +343,34 @@ function isTerm(a) {
 	return true
 }
 
-function isomorphic(a, b, m=new Map()) {
+function isomorphic(a, b) {
 	if (a === b)
-		return m
+		return true
 	if (a.op !== b.op)
 		return
 	switch (a.op) {
 	case 'call':
-		m = isomorphic(a.f, b.f, m)
-		if (!m)
+		if (!isomorphic(a.f, b.f))
 			return
 		break
 	case 'fun':
 	case 'variable':
-		if (a.name && a.name === b.name)
-			return m
-		var x = m.get(a)
-		if (x === b)
-			return m
-		if (!x) {
-			m.set(a, b)
-			return m
-		}
-		return
+		if (!a.name)
+			a.name = b.name
+		if (!b.name)
+			b.name = a.name
+		if (!a.name)
+			a.name = b.name = a + ''
+		return a.name === b.name
 	}
-	if (!a.length) {
-		if (eq(a, b))
-			return m
-		return
-	}
+	if (!a.length)
+		return eq(a, b)
 	if (a.length !== b.length)
 		return
-	for (var i = 0; i < a.length && m; i++)
-		m = isomorphic(a[i], b[i], m)
-	return m
+	for (var i = 0; i < a.length; i++)
+		if (!isomorphic(a[i], b[i]))
+			return
+	return true
 }
 
 function letter(n) {

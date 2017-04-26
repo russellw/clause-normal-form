@@ -575,6 +575,23 @@ describe('unify', function () {
 		assert(!index.unify(index.call(f, [index.integer(1)]), index.call(g, [index.integer(1)])))
 	})
 })
+describe('isomorphic', function () {
+	it('isomorphic(a, a)', function () {
+		var a = index.fun()
+		assert(index.isomorphic(a, a))
+	})
+	it('isomorphic(a, b)', function () {
+		var a = index.fun()
+		var b = index.fun()
+		assert(index.isomorphic(a, b))
+	})
+	it("isomorphic('a', 'a')", function () {
+		assert(index.isomorphic(index.fun('a'), index.fun('a')))
+	})
+	it("!isomorphic('a', 'b')", function () {
+		assert(!index.isomorphic(index.fun('a'), index.fun('b')))
+	})
+})
 describe('convert', function () {
 	it('a -> [a]', function () {
 		var a = index.fun()
