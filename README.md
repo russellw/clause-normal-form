@@ -33,6 +33,14 @@ Category|Arity|Operator|Description|Properties
 |||`>=`|Greater than or equal||
 |General|N|`call`|Call a function|`f`|
 
+### Usage
+
+```
+var cnf = require('clause-normal-form')
+```
+
+And prefix functions with `cnf.`.
+
 ### Factory functions
 
 Terms are created with factory functions:
