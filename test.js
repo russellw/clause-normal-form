@@ -634,7 +634,7 @@ describe('convert', function () {
 			index.call(s, [z]),
 		])
 		var clauses = index.term('&')
-		clauses.push(b)
+		clauses.push(index.term('|', b))
 		assert(index.isomorphic(index.convert(a), clauses))
 	})
 })
