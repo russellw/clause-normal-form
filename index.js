@@ -509,13 +509,7 @@ function real(val) {
 }
 
 function skolem(args) {
-	return {
-		args,
-		fun: {
-			op: 'fun',
-		},
-		op: 'call',
-	}
+	return call(fun(), args)
 }
 
 function term(op, ...args) {
