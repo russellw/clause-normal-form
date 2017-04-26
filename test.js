@@ -285,6 +285,17 @@ describe('eq', function () {
 			assertNeq(index.quant('!', [x], a), index.quant('!', [y], a))
 		})
 	})
+	describe('call', function () {
+		it('f(1) = f(1)', function () {
+			var f = index.fun()
+			assert(index.eq(index.call(f, [index.integer(1)]), index.call(f, [index.integer(1)])))
+		})
+		it('f(1) != g(1)', function () {
+			var f = index.fun()
+			var g = index.fun()
+			assert(!index.eq(index.call(f, [index.integer(1)]), index.call(g, [index.integer(1)])))
+		})
+	})
 })
 describe('evaluate', function () {
 	describe('atom', function () {
