@@ -344,6 +344,8 @@ function isTerm(a) {
 }
 
 function isomorphic(a, b) {
+	assert(isTerm(a))
+	assert(isTerm(b))
 	if (a === b)
 		return true
 	if (a.op !== b.op)
@@ -434,6 +436,7 @@ function occurs(a, b, m) {
 
 function quant(op, variables, arg) {
 	assert(typeof op === 'string')
+	assert(!variables.op)
 	assert(variables.every(x => x.op === 'variable'))
 	assert(isTerm(arg))
 	var a = [arg]
@@ -516,6 +519,7 @@ function skolem(args) {
 }
 
 function term(op, ...args) {
+	assert(typeof op === 'string')
 	var a = Array.from(args)
 	a.op = op
 	a.toString = function () {

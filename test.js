@@ -622,4 +622,19 @@ describe('convert', function () {
 		var y = m.get(x)
 		assert(y.op === 'variable')
 	})
+	it('![X]: ?[Y]: p(X, Y) -> p(Z, s(Z))', function () {
+		var p = index.fun()
+		var x = index.variable()
+		var y = index.variable()
+		var a = index.quant('!', [x], index.quant('?', [y], index.call(p, [x, y])))
+		var s = index.fun()
+		var z = index.variable()
+		var b = index.call(p, [
+			z,
+			index.call(s, [z]),
+		])
+		var clauses = index.term('&')
+		clauses.push(b)
+		assert(index.isomorphic(index.convert(a), clauses))
+	})
 })
