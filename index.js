@@ -348,7 +348,16 @@ function isomorphic(a, b, m=new Map()) {
 		return m
 	if (a.op !== b.op)
 		return
-	if (a.op === 'variable') {
+	switch (a.op) {
+	case 'call':
+		m = isomorphic(a.f, b.f, m)
+		if (!m)
+			return
+		break
+	case 'fun':
+	case 'variable':
+		if (a.name && a.name === b.name)
+			return m
 		var x = m.get(a)
 		if (x === b)
 			return m
@@ -358,8 +367,6 @@ function isomorphic(a, b, m=new Map()) {
 		}
 		return
 	}
-	if (a.fun !== b.fun)
-		return
 	if (!a.length) {
 		if (eq(a, b))
 			return m
