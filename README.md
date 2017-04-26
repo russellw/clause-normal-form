@@ -4,7 +4,7 @@ Specifically, terms are represented as arrays with extra properties. The array r
 
 ### Operators
 
-The `op` property indicates the operator, or kind of term. Operator names follow TPTP syntax where applicable. The following operators are currently defined:
+The `op` property indicates the operator, or kind of term. Operator names follow TPTP syntax where applicable. The following are currently defined:
 
 Category|Arity|Operator|Description|Properties
 ---|---|---|---|---
@@ -39,7 +39,7 @@ Category|Arity|Operator|Description|Properties
 var cnf = require('clause-normal-form')
 ```
 
-And prefix functions with `cnf.`.
+And prefix functions with `cnf.`
 
 ### Factory functions
 
