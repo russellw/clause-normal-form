@@ -128,6 +128,12 @@ evaluate(a, m)
 Evaluate a term, looking up substitutions in the `Map` m.
 
 ```
+isomorphic(a, b)
+```
+
+Check whether two terms are isomorphic. This is similar to equality except that two atoms are isomorphic if they have the same name. Furthermore, when an anonymous atom is compared with a named one, the anonymous one is given that name, and when two anonymous atoms are compared, they are both given the same generated name. This function is mainly used for writing tests.
+
+```
 occurs(a, b, m)
 ```
 
