@@ -554,6 +554,15 @@ describe('unify', function () {
 		var x = index.variable()
 		assert(!index.unify(x, index.term('~', x)))
 	})
+	it('unify(f(1), f(1))', function () {
+		var f = index.fun()
+		assert(index.unify(index.call(f, [index.integer(1)]), index.call(f, [index.integer(1)])))
+	})
+	it('!unify(f(1), g(1))', function () {
+		var f = index.fun()
+		var g = index.fun()
+		assert(!index.unify(index.call(f, [index.integer(1)]), index.call(g, [index.integer(1)])))
+	})
 })
 describe('convert', function () {
 	it('a -> [a]', function () {

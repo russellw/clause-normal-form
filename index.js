@@ -31,6 +31,7 @@ function bool(val) {
 }
 
 function call(f, args) {
+	assert(!args.op)
 	var a = Array.from(args)
 	a.op = 'call'
 	a.f = f
@@ -340,6 +341,35 @@ function isTerm(a) {
 	return true
 }
 
+function isomorphic(a, b, m=new Map()) {
+	if (a === b)
+		return m
+	if (a.op !== b.op)
+		return
+	if (a.op === 'variable') {
+		var x = m.get(a)
+		if (x === b)
+			return m
+		if (!x) {
+			m.set(a, b)
+			return m
+		}
+		return
+	}
+	if (a.fun !== b.fun)
+		return
+	if (!a.length) {
+		if (eq(a, b))
+			return m
+		return
+	}
+	if (a.length !== b.length)
+		return
+	for (var i = 0; i < a.length && m; i++)
+		m = isomorphic(a[i], b[i], m)
+	return m
+}
+
 function letter(n) {
 	if (n < 26)
 		return String.fromCharCode(65 + n)
@@ -500,13 +530,13 @@ function unify(a, b, m=new Map()) {
 		return unifyVariable(b, a, m)
 	if (a.op !== b.op)
 		return
-	if (a.fun !== b.fun)
-		return
 	if (!a.length) {
 		if (eq(a, b))
 			return m
 		return
 	}
+	if (a.f !== b.f)
+		return
 	if (a.length !== b.length)
 		return
 	for (var i = 0; i < a.length && m; i++)
@@ -553,6 +583,7 @@ exports.eq = eq
 exports.evaluate = evaluate
 exports.fun = fun
 exports.integer = integer
+exports.isomorphic = isomorphic
 exports.occurs = occurs
 exports.quant = quant
 exports.rational = rational
