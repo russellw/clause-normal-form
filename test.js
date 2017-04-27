@@ -593,26 +593,26 @@ describe('isomorphic', function () {
 	})
 })
 describe('convert', function () {
-	it('a -> [a]', function () {
+	it('a -> a', function () {
 		var a = index.fun()
 		var clauses = index.term('&')
 		clauses.push(index.term('|', a))
 		assertEq(index.convert(a), clauses)
 	})
-	it('~~a -> [a]', function () {
+	it('~~a -> a', function () {
 		var a = index.fun()
 		var clauses = index.term('&')
 		clauses.push(index.term('|', a))
 		assertEq(index.convert(index.term('~', index.term('~', a))), clauses)
 	})
-	it('a=b -> [a=b]', function () {
+	it('a=b -> a=b', function () {
 		var a = index.fun()
 		var b = index.fun()
 		var clauses = index.term('&')
 		clauses.push(index.term('|', index.term('=', a, b)))
 		assertEq(index.convert(index.term('=', a, b)), clauses)
 	})
-	it('f(X) -> [f(Y)]', function () {
+	it('f(X) -> f(Y)', function () {
 		var f = index.fun()
 		var x = index.variable()
 		var a = index.call(f, [x])
@@ -640,6 +640,14 @@ describe('convert', function () {
 	it('a, b -> a, b', function () {
 		var a = index.fun()
 		var b = index.fun()
+		var clauses = index.term('&')
+		clauses.push(index.term('|', a))
+		clauses.push(index.term('|', b))
+		assert(index.isomorphic(index.convert(index.term('&', a, b)), clauses))
+	})
+	it('a(1), b(2) -> a(1), b(2)', function () {
+		var a = index.call(index.fun(), [index.integer('1')])
+		var b = index.call(index.fun(), [index.integer('2')])
 		var clauses = index.term('&')
 		clauses.push(index.term('|', a))
 		clauses.push(index.term('|', b))
