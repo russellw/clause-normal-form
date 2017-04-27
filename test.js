@@ -637,4 +637,12 @@ describe('convert', function () {
 		clauses.push(index.term('|', b))
 		assert(index.isomorphic(index.convert(a), clauses))
 	})
+	it('a, b -> a, b', function () {
+		var a = index.fun()
+		var b = index.fun()
+		var clauses = index.term('&')
+		clauses.push(index.term('|', a))
+		clauses.push(index.term('|', b))
+		assert(index.isomorphic(index.convert(index.term('&', a, b)), clauses))
+	})
 })
