@@ -265,11 +265,11 @@ function evaluate(a, m) {
 }
 
 function flatten(op, a, cs) {
-	if (a.op === op)
-		for (var x of a) {
+	if (a.op === op) {
+		for (var x of a)
 			flatten(op, x, cs)
-			return
-		}
+		return
+	}
 	cs.push(a)
 }
 
