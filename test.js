@@ -250,6 +250,14 @@ describe('eq', function () {
 			assertNeq(index.rational('1/2'), index.rational('1/3'))
 		})
 	})
+	describe('real', function () {
+		it('1/2 = 1/2', function () {
+			assertEq(index.real('1.23e456'), index.real('1.23e456'))
+		})
+		it('1/2 != 1/3', function () {
+			assertNeq(index.real('1.0'), index.real('1.1'))
+		})
+	})
 	describe('fun', function () {
 		it('a = a', function () {
 			var a = index.fun()
