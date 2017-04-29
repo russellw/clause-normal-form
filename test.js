@@ -662,3 +662,32 @@ describe('convert', function () {
 		assert(index.isomorphic(index.convert(index.term('&', a, b)), clauses))
 	})
 })
+describe('isFalse', function () {
+	it('isFalse(false)', function () {
+		assert(index.isFalse(index.bool(false)))
+	})
+	it('!isFalse(true)', function () {
+		assert(!index.isFalse(index.bool(true)))
+	})
+	it('!isFalse(~false)', function () {
+		assert(!index.isFalse(index.term('~', index.bool(false))))
+	})
+	it('isFalse(~true)', function () {
+		assert(index.isFalse(index.term('~', index.bool(true))))
+	})
+	it('isFalse(false & false)', function () {
+		assert(index.isFalse(index.term('&', index.bool(false), index.bool(false))))
+	})
+	it('isFalse(false & true)', function () {
+		assert(index.isFalse(index.term('&', index.bool(false), index.bool(true))))
+	})
+	it('isFalse(true & false)', function () {
+		assert(index.isFalse(index.term('&', index.bool(true), index.bool(false))))
+	})
+	it('!isFalse(true & true)', function () {
+		assert(index.isFalse(index.term('&', index.bool(true), index.bool(true))))
+	})
+	it('!isFalse(a)', function () {
+		assert(!index.isFalse(index.fun()))
+	})
+})

@@ -335,12 +335,52 @@ function isConst(a) {
 	}
 }
 
+function isFalse(a) {
+	assert(isTerm(a))
+	switch (a.op) {
+	case '&':
+		return a.some(isFalse)
+	case 'bool':
+		return !a.val
+	case 'distinct_obj':
+	case 'integer':
+	case 'rational':
+	case 'real':
+	case 'variable':
+		throw new Error(a)
+	case '|':
+		return a.every(isFalse)
+	case '~':
+		return isTrue(a[0])
+	}
+}
+
 function isTerm(a) {
 	if (!Array.isArray(a))
 		return
 	if (typeof a.op !== 'string')
 		return
 	return true
+}
+
+function isTrue(a) {
+	assert(isTerm(a))
+	switch (a.op) {
+	case '&':
+		return a.every(isTrue)
+	case 'bool':
+		return a.val
+	case 'distinct_obj':
+	case 'integer':
+	case 'rational':
+	case 'real':
+	case 'variable':
+		throw new Error(a)
+	case '|':
+		return a.some(isTrue)
+	case '~':
+		return isFalse(a[0])
+	}
 }
 
 function isomorphic(a, b) {
@@ -584,6 +624,8 @@ exports.eq = eq
 exports.evaluate = evaluate
 exports.fun = fun
 exports.integer = integer
+exports.isFalse = isFalse
+exports.isTrue = isTrue
 exports.isomorphic = isomorphic
 exports.occurs = occurs
 exports.quant = quant
