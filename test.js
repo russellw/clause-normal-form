@@ -703,3 +703,44 @@ describe('isFalse', function () {
 		assert(!index.isFalse(index.fun()))
 	})
 })
+describe('isTrue', function () {
+	it('!isTrue(false)', function () {
+		assert(!index.isTrue(index.bool(false)))
+	})
+	it('isTrue(true)', function () {
+		assert(index.isTrue(index.bool(true)))
+	})
+	it('isTrue(~false)', function () {
+		assert(index.isTrue(index.term('~', index.bool(false))))
+	})
+	it('!isTrue(~true)', function () {
+		assert(!index.isTrue(index.term('~', index.bool(true))))
+	})
+	it('!isTrue(false & false)', function () {
+		assert(!index.isTrue(index.term('&', index.bool(false), index.bool(false))))
+	})
+	it('!isTrue(false & true)', function () {
+		assert(!index.isTrue(index.term('&', index.bool(false), index.bool(true))))
+	})
+	it('!isTrue(true & false)', function () {
+		assert(!index.isTrue(index.term('&', index.bool(true), index.bool(false))))
+	})
+	it('isTrue(true & true)', function () {
+		assert(index.isTrue(index.term('&', index.bool(true), index.bool(true))))
+	})
+	it('!isTrue(false | false)', function () {
+		assert(!index.isTrue(index.term('|', index.bool(false), index.bool(false))))
+	})
+	it('isTrue(false | true)', function () {
+		assert(index.isTrue(index.term('|', index.bool(false), index.bool(true))))
+	})
+	it('isTrue(true | false)', function () {
+		assert(index.isTrue(index.term('|', index.bool(true), index.bool(false))))
+	})
+	it('isTrue(true | true)', function () {
+		assert(index.isTrue(index.term('|', index.bool(true), index.bool(true))))
+	})
+	it('!isTrue(a)', function () {
+		assert(!index.isTrue(index.fun()))
+	})
+})
