@@ -181,11 +181,9 @@ function eq(a, b) {
 
 function evaluate(a, m) {
 	assert(isTerm(a))
-	if (m) {
-		var r = m.get(a)
-		if (r)
-			return r
-	}
+	var r = iop.get(m, a)
+	if (r)
+		return r
 	a = map(a, x => evaluate(x, m))
 	switch (a.op) {
 	case '!=':
