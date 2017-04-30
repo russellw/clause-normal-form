@@ -254,17 +254,10 @@ function evaluate(a, m) {
 		}
 		break
 	case '|':
-		var args = a.filter(x => !isFalse(x))
-		a = term(a.op, ...args)
-		switch (a.length) {
-		case 0:
-			return bool(false)
-		case 1:
-			return a[0]
-		}
-		if (a.some(isTrue))
-			return bool(true)
-		break
+		for (var x of a)
+			if (isTrue(x))
+				return term(a.op, x)
+		return term(a.op, ...a.filter(x => !isFalse(x)))
 	case '~':
 		switch (a[0].op) {
 		case 'bool':
