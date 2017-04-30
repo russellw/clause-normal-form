@@ -510,6 +510,48 @@ describe('evaluate', function () {
 			})
 		})
 	})
+	describe('>', function () {
+		describe('constant', function () {
+			it('2 > 1', function () {
+				assertEq(index.evaluate(index.term('>', index.integer(2), index.integer(1))), index.bool(true))
+			})
+			it('1 !> 2', function () {
+				assertEq(index.evaluate(index.term('>', index.integer(1), index.integer(2))), index.bool(false))
+			})
+		})
+		describe('variable', function () {
+			it('a !> a', function () {
+				var a = index.fun()
+				assertEq(index.evaluate(index.term('>', a, a)), index.bool(false))
+			})
+			it('a ?> b', function () {
+				var a = index.fun()
+				var b = index.fun()
+				assertEq(index.evaluate(index.term('>', a, b)), index.term('>', a, b))
+			})
+		})
+	})
+	describe('>=', function () {
+		describe('constant', function () {
+			it('1 >= 1', function () {
+				assertEq(index.evaluate(index.term('>=', index.integer(1), index.integer(1))), index.bool(true))
+			})
+			it('1 !>= 2', function () {
+				assertEq(index.evaluate(index.term('>=', index.integer(1), index.integer(2))), index.bool(false))
+			})
+		})
+		describe('variable', function () {
+			it('a >= a', function () {
+				var a = index.fun()
+				assertEq(index.evaluate(index.term('>=', a, a)), index.bool(true))
+			})
+			it('a ?>= b', function () {
+				var a = index.fun()
+				var b = index.fun()
+				assertEq(index.evaluate(index.term('>=', a, b)), index.term('>=', a, b))
+			})
+		})
+	})
 	describe('recursive', function () {
 		it('true&(true&false) = false', function () {
 			var b = index.term('&', index.bool(true), index.bool(false))

@@ -244,6 +244,30 @@ function evaluate(a, m) {
 		if (isConst(a[0]) && isConst(a[1]))
 			return bool(false)
 		break
+	case '>':
+		if (eq(a[0], a[1]))
+			return bool(false)
+		if (a[0].op !== a[1].op)
+			break
+		switch (a[0].op) {
+		case 'integer':
+		case 'rational':
+		case 'real':
+			return bool(a[0].val.gt(a[1].val))
+		}
+		break
+	case '>=':
+		if (eq(a[0], a[1]))
+			return bool(true)
+		if (a[0].op !== a[1].op)
+			break
+		switch (a[0].op) {
+		case 'integer':
+		case 'rational':
+		case 'real':
+			return bool(a[0].val.geq(a[1].val))
+		}
+		break
 	case '|':
 		var args = a.filter(x => !eqFalse(x))
 		a = term(a.op, ...args)
