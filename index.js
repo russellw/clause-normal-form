@@ -179,14 +179,6 @@ function eq(a, b) {
 	return true
 }
 
-function eqFalse(a) {
-	return a.op === 'bool' && !a.val
-}
-
-function eqTrue(a) {
-	return a.op === 'bool' && a.val
-}
-
 function evaluate(a, m) {
 	assert(isTerm(a))
 	if (m) {
@@ -203,7 +195,7 @@ function evaluate(a, m) {
 			return bool(true)
 		break
 	case '&':
-		var args = a.filter(x => !eqTrue(x))
+		var args = a.filter(x => !isTrue(x))
 		a = term(a.op, ...args)
 		switch (a.length) {
 		case 0:
@@ -211,7 +203,7 @@ function evaluate(a, m) {
 		case 1:
 			return a[0]
 		}
-		if (a.some(eqFalse))
+		if (a.some(isFalse))
 			return bool(false)
 		break
 	case '<':
@@ -269,7 +261,7 @@ function evaluate(a, m) {
 		}
 		break
 	case '|':
-		var args = a.filter(x => !eqFalse(x))
+		var args = a.filter(x => !isFalse(x))
 		a = term(a.op, ...args)
 		switch (a.length) {
 		case 0:
@@ -277,7 +269,7 @@ function evaluate(a, m) {
 		case 1:
 			return a[0]
 		}
-		if (a.some(eqTrue))
+		if (a.some(isTrue))
 			return bool(true)
 		break
 	case '~':
