@@ -421,6 +421,10 @@ describe('evaluate', function () {
 			var a = index.fun()
 			assertEq(index.evaluate(index.term('~', a)), index.term('~', a))
 		})
+		it('~~a = a', function () {
+			var a = index.fun()
+			assertEq(index.evaluate(index.term('~', index.term('~', a))), a)
+		})
 	})
 	describe('=', function () {
 		describe('constant', function () {
