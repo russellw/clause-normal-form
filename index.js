@@ -195,17 +195,10 @@ function evaluate(a, m) {
 			return bool(true)
 		break
 	case '&':
-		var args = a.filter(x => !isTrue(x))
-		a = term(a.op, ...args)
-		switch (a.length) {
-		case 0:
-			return bool(true)
-		case 1:
-			return a[0]
-		}
-		if (a.some(isFalse))
-			return bool(false)
-		break
+		for (var x of a)
+			if (isFalse(x))
+				return term(a.op, x)
+		return term(a.op, ...a.filter(x => !isTrue(x)))
 	case '<':
 		if (eq(a[0], a[1]))
 			return bool(false)
