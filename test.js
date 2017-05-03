@@ -790,3 +790,9 @@ describe('isTrue', function () {
 		assert(!index.isTrue(index.fun()))
 	})
 })
+describe('Collection', function () {
+	it('empty', function () {
+		var e = index.empty
+		assert(e.get('a') === undefined)
+	})
+})

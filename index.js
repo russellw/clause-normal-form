@@ -16,6 +16,7 @@ var empty = {
 		m.key = val
 		return m
 	},
+
 	get() {
 	},
 }
