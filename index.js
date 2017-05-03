@@ -25,16 +25,16 @@ class Collection {
 		this.next = next
 	}
 
-	get(key) {
-		for (var m = this; m; m = m.next)
-			if (eq(m.key, key))
-				return m.val
-	}
-
 	add(key, val) {
 		var m = new Collection(this)
 		m.key = val
 		return m
+	}
+
+	get(key) {
+		for (var m = this; m; m = m.next)
+			if (eq(m.key, key))
+				return m.val
 	}
 }
 
