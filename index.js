@@ -8,6 +8,11 @@ var iop = require('iop')
 var clauses
 var funCount = 0
 var variableCount = 0
+class Collection {
+	constructor(next) {
+		this.next = next
+	}
+}
 
 function alternate(a, i, alts) {
 	var r = []
