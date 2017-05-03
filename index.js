@@ -9,14 +9,32 @@ var clauses
 var funCount = 0
 var variableCount = 0
 
+// Collections
+var empty = {
+	add(key, val) {
+		var m = new Collection(this)
+		m.key = val
+		return m
+	},
+	get() {
+	},
+}
+
 class Collection {
 	constructor(next) {
 		this.next = next
 	}
+
 	get(key) {
 		for (var m = this; m; m = m.next)
 			if (eq(m.key, key))
 				return m.val
+	}
+
+	add(key, val) {
+		var m = new Collection(this)
+		m.key = val
+		return m
 	}
 }
 
@@ -152,10 +170,6 @@ function eliminateQuantifiers(a, bound) {
 		return a
 	}
 	return map(a, x => eliminateQuantifiers(x, bound))
-}
-
-function empty() {
-	return new Collection()
 }
 
 function eq(a, b) {
@@ -508,7 +522,6 @@ function quant(op, variables, arg) {
 }
 
 function raiseAnd(a) {
-
 	function rename(a) {
 		if (!complex(a))
 			return a
