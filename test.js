@@ -802,4 +802,15 @@ describe('Collection', function () {
 		assert(m1.get('a') === 1)
 		assert(m2.get('a') === 2)
 	})
+	it('number', function () {
+		var m = index.empty
+		assert(m.get(0) === undefined)
+		var m1 = m.add(0, 1)
+		assert(m.get(0) === undefined)
+		assert(m1.get(0) === 1)
+		var m2 = m1.add(0, 2)
+		assert(m.get(0) === undefined)
+		assert(m1.get(0) === 1)
+		assert(m2.get(0) === 2)
+	})
 })
