@@ -8,9 +8,15 @@ var iop = require('iop')
 var clauses
 var funCount = 0
 var variableCount = 0
+
 class Collection {
 	constructor(next) {
 		this.next = next
+	}
+	get(key) {
+		for (var m = this; m; m = m.next)
+			if (eq(m.key, key))
+				return m.val
 	}
 }
 
@@ -146,6 +152,10 @@ function eliminateQuantifiers(a, bound) {
 		return a
 	}
 	return map(a, x => eliminateQuantifiers(x, bound))
+}
+
+function empty() {
+	return new Collection()
 }
 
 function eq(a, b) {
@@ -629,6 +639,7 @@ exports.bool = bool
 exports.call = call
 exports.convert = convert
 exports.distinct_obj = distinct_obj
+exports.empty = empty
 exports.eq = eq
 exports.evaluate = evaluate
 exports.fun = fun
