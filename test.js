@@ -791,8 +791,15 @@ describe('isTrue', function () {
 	})
 })
 describe('Collection', function () {
-	it('empty', function () {
-		var e = index.empty
-		assert(e.get('a') === undefined)
+	it('string', function () {
+		var m = index.empty
+		assert(m.get('a') === undefined)
+		var m1 = m.add('a', 1)
+		assert(m.get('a') === undefined)
+		assert(m1.get('a') === 1)
+		var m2 = m1.add('a', 2)
+		assert(m.get('a') === undefined)
+		assert(m1.get('a') === 1)
+		assert(m2.get('a') === 2)
 	})
 })

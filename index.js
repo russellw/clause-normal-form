@@ -12,7 +12,7 @@ var variableCount = 0
 // Collections
 var empty = {
 	add(key, val) {
-		var m = new Collection(this)
+		var m = new Collection()
 		m.key = val
 		return m
 	},
@@ -174,8 +174,6 @@ function eliminateQuantifiers(a, bound) {
 }
 
 function eq(a, b) {
-	assert(isTerm(a))
-	assert(isTerm(b))
 	if (a === b)
 		return true
 	if (a.op !== b.op)
