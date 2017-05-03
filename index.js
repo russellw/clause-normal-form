@@ -13,7 +13,8 @@ var variableCount = 0
 var empty = {
 	add(key, val) {
 		var m = new Collection()
-		m.key = val
+		m.key = key
+		m.val = val
 		return m
 	},
 
@@ -28,7 +29,8 @@ class Collection {
 
 	add(key, val) {
 		var m = new Collection(this)
-		m.key = val
+		m.key = key
+		m.val = val
 		return m
 	}
 
