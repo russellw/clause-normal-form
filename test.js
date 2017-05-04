@@ -825,4 +825,16 @@ describe('Collection', function () {
 		assert(m1.get(a) === 1)
 		assert(m2.get(a) === 2)
 	})
+	it('term', function () {
+		var a = index.fun()
+		var m = index.empty
+		assert(m.get(index.term('~', a)) === undefined)
+		var m1 = m.add(index.term('~', a), 1)
+		assert(m.get(index.term('~', a)) === undefined)
+		assert(m1.get(index.term('~', a)) === 1)
+		var m2 = m1.add(index.term('~', a), 2)
+		assert(m.get(index.term('~', a)) === undefined)
+		assert(m1.get(index.term('~', a)) === 1)
+		assert(m2.get(index.term('~', a)) === 2)
+	})
 })
