@@ -309,251 +309,251 @@ describe('evaluate', function () {
 	describe('atom', function () {
 		it('a = a', function () {
 			var a = index.fun()
-			assert(index.evaluate(a,index.empty) === a)
+			assert(index.evaluate(a, index.empty) === a)
 		})
 	})
 	describe('lookup', function () {
 		it('a/a:b = b', function () {
 			var a = index.fun()
 			var b = index.fun()
-			var m = index.empty.add(a,b)
+			var m = index.empty.add(a, b)
 			assert(index.evaluate(a, m) === b)
 		})
 		it('a/b:b = a', function () {
 			var a = index.fun()
 			var b = index.fun()
-			var m = index.empty.add(b,b)
+			var m = index.empty.add(b, b)
 			assert(index.evaluate(a, m) === a)
 		})
 	})
 	describe('&', function () {
 		describe('0-ary', function () {
 			it('(&)', function () {
-				assertEq(index.evaluate(index.term('&'),index.empty), index.term('&'))
+				assertEq(index.evaluate(index.term('&'), index.empty), index.term('&'))
 			})
 		})
 		describe('unary', function () {
 			it('(&)false', function () {
-				assertEq(index.evaluate(index.term('&', index.bool(false)),index.empty), index.term('&', index.bool(false)))
+				assertEq(index.evaluate(index.term('&', index.bool(false)), index.empty), index.term('&', index.bool(false)))
 			})
 			it('(&)true', function () {
-				assertEq(index.evaluate(index.term('&', index.bool(true)),index.empty), index.term('&'))
+				assertEq(index.evaluate(index.term('&', index.bool(true)), index.empty), index.term('&'))
 			})
 			it('(&)a', function () {
 				var a = index.fun()
-				assertEq(index.evaluate(index.term('&', a),index.empty), index.term('&', a))
+				assertEq(index.evaluate(index.term('&', a), index.empty), index.term('&', a))
 			})
 		})
 		describe('binary', function () {
 			it('false&false', function () {
-				assertEq(index.evaluate(index.term('&', index.bool(false), index.bool(false)),index.empty), index.term('&', index.bool(false)))
+				assertEq(index.evaluate(index.term('&', index.bool(false), index.bool(false)), index.empty), index.term('&', index.bool(false)))
 			})
 			it('false&true', function () {
-				assertEq(index.evaluate(index.term('&', index.bool(false), index.bool(true)),index.empty), index.term('&', index.bool(false)))
+				assertEq(index.evaluate(index.term('&', index.bool(false), index.bool(true)), index.empty), index.term('&', index.bool(false)))
 			})
 			it('true&false', function () {
-				assertEq(index.evaluate(index.term('&', index.bool(true), index.bool(false)),index.empty), index.term('&', index.bool(false)))
+				assertEq(index.evaluate(index.term('&', index.bool(true), index.bool(false)), index.empty), index.term('&', index.bool(false)))
 			})
 			it('true&true', function () {
-				assertEq(index.evaluate(index.term('&', index.bool(true), index.bool(true)),index.empty), index.term('&'))
+				assertEq(index.evaluate(index.term('&', index.bool(true), index.bool(true)), index.empty), index.term('&'))
 			})
 			it('a&false', function () {
 				var a = index.fun()
-				assertEq(index.evaluate(index.term('&', a, index.bool(false)),index.empty), index.term('&', index.bool(false)))
+				assertEq(index.evaluate(index.term('&', a, index.bool(false)), index.empty), index.term('&', index.bool(false)))
 			})
 			it('a&true', function () {
 				var a = index.fun()
-				assertEq(index.evaluate(index.term('&', a, index.bool(true)),index.empty), index.term('&', a))
+				assertEq(index.evaluate(index.term('&', a, index.bool(true)), index.empty), index.term('&', a))
 			})
 		})
 	})
 	describe('|', function () {
 		describe('0-ary', function () {
 			it('(|)', function () {
-				assertEq(index.evaluate(index.term('|'),index.empty), index.term('|'))
+				assertEq(index.evaluate(index.term('|'), index.empty), index.term('|'))
 			})
 		})
 		describe('unary', function () {
 			it('(|)false', function () {
-				assertEq(index.evaluate(index.term('|', index.bool(false)),index.empty), index.term('|'))
+				assertEq(index.evaluate(index.term('|', index.bool(false)), index.empty), index.term('|'))
 			})
 			it('(|)true', function () {
-				assertEq(index.evaluate(index.term('|', index.bool(true)),index.empty), index.term('|', index.bool(true)))
+				assertEq(index.evaluate(index.term('|', index.bool(true)), index.empty), index.term('|', index.bool(true)))
 			})
 			it('(|)a', function () {
 				var a = index.fun()
-				assertEq(index.evaluate(index.term('|', a),index.empty), index.term('|', a))
+				assertEq(index.evaluate(index.term('|', a), index.empty), index.term('|', a))
 			})
 		})
 		describe('binary', function () {
 			it('false|false', function () {
-				assertEq(index.evaluate(index.term('|', index.bool(false), index.bool(false)),index.empty), index.term('|'))
+				assertEq(index.evaluate(index.term('|', index.bool(false), index.bool(false)), index.empty), index.term('|'))
 			})
 			it('false|true', function () {
-				assertEq(index.evaluate(index.term('|', index.bool(false), index.bool(true)),index.empty), index.term('|', index.bool(true)))
+				assertEq(index.evaluate(index.term('|', index.bool(false), index.bool(true)), index.empty), index.term('|', index.bool(true)))
 			})
 			it('true|false', function () {
-				assertEq(index.evaluate(index.term('|', index.bool(true), index.bool(false)),index.empty), index.term('|', index.bool(true)))
+				assertEq(index.evaluate(index.term('|', index.bool(true), index.bool(false)), index.empty), index.term('|', index.bool(true)))
 			})
 			it('true|true', function () {
-				assertEq(index.evaluate(index.term('|', index.bool(true), index.bool(true)),index.empty), index.term('|', index.bool(true)))
+				assertEq(index.evaluate(index.term('|', index.bool(true), index.bool(true)), index.empty), index.term('|', index.bool(true)))
 			})
 			it('a|false', function () {
 				var a = index.fun()
-				assertEq(index.evaluate(index.term('|', a, index.bool(false)),index.empty), index.term('|', a))
+				assertEq(index.evaluate(index.term('|', a, index.bool(false)), index.empty), index.term('|', a))
 			})
 			it('a|true', function () {
 				var a = index.fun()
-				assertEq(index.evaluate(index.term('|', a, index.bool(true)),index.empty), index.term('|', index.bool(true)))
+				assertEq(index.evaluate(index.term('|', a, index.bool(true)), index.empty), index.term('|', index.bool(true)))
 			})
 		})
 	})
 	describe('~', function () {
 		it('~false = true', function () {
-			assertEq(index.evaluate(index.term('~', index.bool(false)),index.empty), index.bool(true))
+			assertEq(index.evaluate(index.term('~', index.bool(false)), index.empty), index.bool(true))
 		})
 		it('~true = false', function () {
-			assertEq(index.evaluate(index.term('~', index.bool(true)),index.empty), index.bool(false))
+			assertEq(index.evaluate(index.term('~', index.bool(true)), index.empty), index.bool(false))
 		})
 		it('~a = ~a', function () {
 			var a = index.fun()
-			assertEq(index.evaluate(index.term('~', a),index.empty), index.term('~', a))
+			assertEq(index.evaluate(index.term('~', a), index.empty), index.term('~', a))
 		})
 		it('~~a = a', function () {
 			var a = index.fun()
-			assertEq(index.evaluate(index.term('~', index.term('~', a)),index.empty), a)
+			assertEq(index.evaluate(index.term('~', index.term('~', a)), index.empty), a)
 		})
 	})
 	describe('=', function () {
 		describe('constant', function () {
 			it('1 = 1', function () {
-				assertEq(index.evaluate(index.term('=', index.integer(1), index.integer(1)),index.empty), index.bool(true))
+				assertEq(index.evaluate(index.term('=', index.integer(1), index.integer(1)), index.empty), index.bool(true))
 			})
 			it('1 != 2', function () {
-				assertEq(index.evaluate(index.term('=', index.integer(1), index.integer(2)),index.empty), index.bool(false))
+				assertEq(index.evaluate(index.term('=', index.integer(1), index.integer(2)), index.empty), index.bool(false))
 			})
 		})
 		describe('variable', function () {
 			it('a = a', function () {
 				var a = index.fun()
-				assertEq(index.evaluate(index.term('=', a, a),index.empty), index.bool(true))
+				assertEq(index.evaluate(index.term('=', a, a), index.empty), index.bool(true))
 			})
 			it('a ?= b', function () {
 				var a = index.fun()
 				var b = index.fun()
-				assertEq(index.evaluate(index.term('=', a, b),index.empty), index.term('=', a, b))
+				assertEq(index.evaluate(index.term('=', a, b), index.empty), index.term('=', a, b))
 			})
 		})
 	})
 	describe('!=', function () {
 		describe('constant', function () {
 			it('1 = 1', function () {
-				assertEq(index.evaluate(index.term('!=', index.integer(1), index.integer(1)),index.empty), index.bool(false))
+				assertEq(index.evaluate(index.term('!=', index.integer(1), index.integer(1)), index.empty), index.bool(false))
 			})
 			it('1 != 2', function () {
-				assertEq(index.evaluate(index.term('!=', index.integer(1), index.integer(2)),index.empty), index.bool(true))
+				assertEq(index.evaluate(index.term('!=', index.integer(1), index.integer(2)), index.empty), index.bool(true))
 			})
 		})
 		describe('variable', function () {
 			it('a = a', function () {
 				var a = index.fun()
-				assertEq(index.evaluate(index.term('!=', a, a),index.empty), index.bool(false))
+				assertEq(index.evaluate(index.term('!=', a, a), index.empty), index.bool(false))
 			})
 			it('a ?= b', function () {
 				var a = index.fun()
 				var b = index.fun()
-				assertEq(index.evaluate(index.term('!=', a, b),index.empty), index.term('!=', a, b))
+				assertEq(index.evaluate(index.term('!=', a, b), index.empty), index.term('!=', a, b))
 			})
 		})
 	})
 	describe('<', function () {
 		describe('constant', function () {
 			it('1 < 2', function () {
-				assertEq(index.evaluate(index.term('<', index.integer(1), index.integer(2)),index.empty), index.bool(true))
+				assertEq(index.evaluate(index.term('<', index.integer(1), index.integer(2)), index.empty), index.bool(true))
 			})
 			it('2 !< 1', function () {
-				assertEq(index.evaluate(index.term('<', index.integer(2), index.integer(1)),index.empty), index.bool(false))
+				assertEq(index.evaluate(index.term('<', index.integer(2), index.integer(1)), index.empty), index.bool(false))
 			})
 		})
 		describe('variable', function () {
 			it('a !< a', function () {
 				var a = index.fun()
-				assertEq(index.evaluate(index.term('<', a, a),index.empty), index.bool(false))
+				assertEq(index.evaluate(index.term('<', a, a), index.empty), index.bool(false))
 			})
 			it('a ?< b', function () {
 				var a = index.fun()
 				var b = index.fun()
-				assertEq(index.evaluate(index.term('<', a, b),index.empty), index.term('<', a, b))
+				assertEq(index.evaluate(index.term('<', a, b), index.empty), index.term('<', a, b))
 			})
 		})
 	})
 	describe('<=', function () {
 		describe('constant', function () {
 			it('1 <= 1', function () {
-				assertEq(index.evaluate(index.term('<=', index.integer(1), index.integer(1)),index.empty), index.bool(true))
+				assertEq(index.evaluate(index.term('<=', index.integer(1), index.integer(1)), index.empty), index.bool(true))
 			})
 			it('2 !<= 1', function () {
-				assertEq(index.evaluate(index.term('<=', index.integer(2), index.integer(1)),index.empty), index.bool(false))
+				assertEq(index.evaluate(index.term('<=', index.integer(2), index.integer(1)), index.empty), index.bool(false))
 			})
 		})
 		describe('variable', function () {
 			it('a <= a', function () {
 				var a = index.fun()
-				assertEq(index.evaluate(index.term('<=', a, a),index.empty), index.bool(true))
+				assertEq(index.evaluate(index.term('<=', a, a), index.empty), index.bool(true))
 			})
 			it('a ?<= b', function () {
 				var a = index.fun()
 				var b = index.fun()
-				assertEq(index.evaluate(index.term('<=', a, b),index.empty), index.term('<=', a, b))
+				assertEq(index.evaluate(index.term('<=', a, b), index.empty), index.term('<=', a, b))
 			})
 		})
 	})
 	describe('>', function () {
 		describe('constant', function () {
 			it('2 > 1', function () {
-				assertEq(index.evaluate(index.term('>', index.integer(2), index.integer(1)),index.empty), index.bool(true))
+				assertEq(index.evaluate(index.term('>', index.integer(2), index.integer(1)), index.empty), index.bool(true))
 			})
 			it('1 !> 2', function () {
-				assertEq(index.evaluate(index.term('>', index.integer(1), index.integer(2)),index.empty), index.bool(false))
+				assertEq(index.evaluate(index.term('>', index.integer(1), index.integer(2)), index.empty), index.bool(false))
 			})
 		})
 		describe('variable', function () {
 			it('a !> a', function () {
 				var a = index.fun()
-				assertEq(index.evaluate(index.term('>', a, a),index.empty), index.bool(false))
+				assertEq(index.evaluate(index.term('>', a, a), index.empty), index.bool(false))
 			})
 			it('a ?> b', function () {
 				var a = index.fun()
 				var b = index.fun()
-				assertEq(index.evaluate(index.term('>', a, b),index.empty), index.term('>', a, b))
+				assertEq(index.evaluate(index.term('>', a, b), index.empty), index.term('>', a, b))
 			})
 		})
 	})
 	describe('>=', function () {
 		describe('constant', function () {
 			it('1 >= 1', function () {
-				assertEq(index.evaluate(index.term('>=', index.integer(1), index.integer(1)),index.empty), index.bool(true))
+				assertEq(index.evaluate(index.term('>=', index.integer(1), index.integer(1)), index.empty), index.bool(true))
 			})
 			it('1 !>= 2', function () {
-				assertEq(index.evaluate(index.term('>=', index.integer(1), index.integer(2)),index.empty), index.bool(false))
+				assertEq(index.evaluate(index.term('>=', index.integer(1), index.integer(2)), index.empty), index.bool(false))
 			})
 		})
 		describe('variable', function () {
 			it('a >= a', function () {
 				var a = index.fun()
-				assertEq(index.evaluate(index.term('>=', a, a),index.empty), index.bool(true))
+				assertEq(index.evaluate(index.term('>=', a, a), index.empty), index.bool(true))
 			})
 			it('a ?>= b', function () {
 				var a = index.fun()
 				var b = index.fun()
-				assertEq(index.evaluate(index.term('>=', a, b),index.empty), index.term('>=', a, b))
+				assertEq(index.evaluate(index.term('>=', a, b), index.empty), index.term('>=', a, b))
 			})
 		})
 	})
 	describe('recursive', function () {
 		it('true&(true|false)', function () {
 			var b = index.term('|', index.bool(true), index.bool(false))
-			assertEq(index.evaluate(index.term('&', index.bool(true), b),index.empty), index.term('&'))
+			assertEq(index.evaluate(index.term('&', index.bool(true), b), index.empty), index.term('&'))
 		})
 	})
 })
@@ -570,7 +570,7 @@ describe('occurs', function () {
 	it('a !in b/b:a', function () {
 		var a = index.fun()
 		var b = index.fun()
-		var m = index.empty.add(b,a)
+		var m = index.empty.add(b, a)
 		assert(index.occurs(a, b, m))
 	})
 	it('a in a&b', function () {

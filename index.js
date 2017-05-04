@@ -17,10 +17,11 @@ var empty = {
 		m.val = val
 		return m
 	},
-	isCollection:true,
 
 	get() {
 	},
+
+	isCollection: true,
 }
 
 class Collection {
@@ -34,12 +35,15 @@ class Collection {
 		m.val = val
 		return m
 	}
-get	isCollection(){return true}
 
 	get(key) {
 		for (var m = this; m; m = m.next)
 			if (eq(m.key, key))
 				return m.val
+	}
+
+	isCollection() {
+		return true
 	}
 }
 
@@ -106,7 +110,7 @@ function convert1(a) {
 
 	// Process steps
 	a = lowerNot(a, true)
-	a = eliminateQuantifiers(a,empty)
+	a = eliminateQuantifiers(a, empty)
 	a = eliminateEqv(a)
 	a = raiseAnd(a)
 
@@ -159,13 +163,13 @@ function eliminateQuantifiers(a, bound) {
 	case '!':
 		for (var x of a.variables) {
 			var y = variable()
-			bound = bound.add(x,y)
+			bound = bound.add(x, y)
 		}
 		return eliminateQuantifiers(a[0], bound)
 	case '?':
 		for (var x of a.variables) {
 			var y = skolem(vals(bound).filter(a => a.op === 'variable'))
-			bound = bound.add(x,y)
+			bound = bound.add(x, y)
 		}
 		return eliminateQuantifiers(a[0], bound)
 	case 'variable':
@@ -214,7 +218,7 @@ function eq(a, b) {
 function evaluate(a, m) {
 	assert(isTerm(a))
 	assert(m.isCollection)
-	var r = m.get( a)
+	var r = m.get(a)
 	if (r)
 		return r
 	a = map(a, x => evaluate(x, m))
@@ -294,7 +298,7 @@ function evaluate(a, m) {
 		case 'bool':
 			return bool(!a[0].val)
 		case '~':
-			return evaluate(a[0][0],m)
+			return evaluate(a[0][0], m)
 		}
 		break
 	}
@@ -318,10 +322,10 @@ function freeVariables(a) {
 		case '!':
 		case '?':
 			for (var x of a.variables)
-				bound = bound.add( x, x)
+				bound = bound.add(x, x)
 			break
 		case 'variable':
-			if (!bound.get( a))
+			if (!bound.get(a))
 				r.add(a)
 			break
 		}
@@ -329,7 +333,7 @@ function freeVariables(a) {
 			rec(x, bound)
 	}
 
-	rec(a,empty)
+	rec(a, empty)
 	return Array.from(r)
 }
 
