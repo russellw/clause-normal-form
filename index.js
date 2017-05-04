@@ -42,7 +42,7 @@ class Collection {
 				return m.val
 	}
 
-	isCollection() {
+	get isCollection() {
 		return true
 	}
 }
