@@ -10,19 +10,6 @@ var funCount = 0
 var variableCount = 0
 
 // Collections
-var empty = {
-	add(key, val) {
-		var m = new Collection()
-		m.key = key
-		m.val = val
-		return m
-	},
-
-	get() {
-	},
-
-	isCollection: true,
-}
 
 class Collection {
 	constructor(next) {
@@ -47,15 +34,21 @@ class Collection {
 	}
 }
 
-function alternate(a, i, alts) {
-	var r = []
-	for (var alt of alts) {
-		var b = Array.from(a)
-		b[i] = alt
-		r.push(b)
-	}
-	return r
+var empty = {
+	add(key, val) {
+		var m = new Collection()
+		m.key = key
+		m.val = val
+		return m
+	},
+
+	get() {
+	},
+
+	isCollection: true,
 }
+
+// Factory functions
 
 function bool(val) {
 	assert(typeof val === 'boolean')
@@ -77,6 +70,125 @@ function call(f, args) {
 		return this.f + '(' + this.join(', ') + ')'
 	}
 	return a
+}
+
+function distinct_obj(name) {
+	assert(typeof name === 'string')
+	var a = []
+	a.name = name
+	a.op = 'distinct_obj'
+	a.toString = function () {
+		return '"' + this.name + '"'
+	}
+	return a
+}
+
+function fun(name) {
+	var a = []
+	a.name = name
+	a.op = 'fun'
+	a.toString = function () {
+		if (!this.name)
+			this.name = letter(funCount++).toLowerCase()
+		return this.name
+	}
+	return a
+}
+
+function integer(val) {
+	switch (typeof val) {
+	case 'number':
+	case 'string':
+		val = bigInt(val)
+		break
+	}
+	var a = []
+	a.op = 'integer'
+	a.toString = function () {
+		return this.val
+	}
+	a.val = val
+	return a
+}
+
+function quant(op, variables, arg) {
+	assert(typeof op === 'string')
+	assert(!variables.op)
+	assert(variables.every(x => x.op === 'variable'))
+	assert(isTerm(arg))
+	var a = [arg]
+	a.op = op
+	a.toString = function () {
+		return this.op + '[' + this.variables.join(', ') + ']: ' + this[0]
+	}
+	a.variables = variables
+	return a
+}
+
+function rational(val) {
+	switch (typeof val) {
+	case 'number':
+	case 'string':
+		val = bigRat(val)
+		break
+	}
+	var a = []
+	a.op = 'rational'
+	a.toString = function () {
+		return this.val
+	}
+	a.val = val
+	return a
+}
+
+function real(val) {
+	switch (typeof val) {
+	case 'number':
+	case 'string':
+		val = bigRat(val)
+		break
+	}
+	var a = []
+	a.op = 'real'
+	a.toString = function () {
+		return this.val
+	}
+	a.val = val
+	return a
+}
+
+function term(op, ...args) {
+	assert(typeof op === 'string')
+	var a = Array.from(args)
+	a.op = op
+	a.toString = function () {
+		return op + '(' + this.join(', ') + ')'
+	}
+	return a
+}
+
+function variable(name) {
+	var a = []
+	a.name = name
+	a.op = 'variable'
+	a.toString = function () {
+		if (!this.name)
+			this.name = letter(variableCount++)
+		return this.name
+	}
+	return a
+}
+
+// Conversion
+
+function alternate(a, i, alts) {
+	var r = []
+	for (var alt of alts) {
+		var b = Array.from(a)
+		b[i] = alt
+		r.push(b)
+	}
+	return r
 }
 
 function complex(a) {
@@ -126,17 +238,6 @@ function convert1(a) {
 	}
 }
 
-function distinct_obj(name) {
-	assert(typeof name === 'string')
-	var a = []
-	a.name = name
-	a.op = 'distinct_obj'
-	a.toString = function () {
-		return '"' + this.name + '"'
-	}
-	return a
-}
-
 function eliminateEqv(a) {
 	a = map(a, eliminateEqv)
 	if (a.op !== '<=>')
@@ -180,6 +281,102 @@ function eliminateQuantifiers(a, bound) {
 	}
 	return map(a, x => eliminateQuantifiers(x, bound))
 }
+
+function flatten(op, a, cs) {
+	if (a.op === op) {
+		for (var x of a)
+			flatten(op, x, cs)
+		return
+	}
+	cs.push(a)
+}
+
+function freeVariables(a) {
+	var r = new Set()
+
+	function rec(a, bound) {
+		switch (a.op) {
+		case '!':
+		case '?':
+			for (var x of a.variables)
+				bound = bound.add(x, x)
+			break
+		case 'variable':
+			if (!bound.get(a))
+				r.add(a)
+			break
+		}
+		for (var x of a)
+			rec(x, bound)
+	}
+
+	rec(a, empty)
+	return Array.from(r)
+}
+
+function lowerNot(a, sign) {
+	assert(typeof sign === 'boolean')
+	switch (a.op) {
+	case '!':
+		return quant(sign ? '!' : '?', a.variables, lowerNot(a[0], sign))
+	case '!=':
+		return lowerNot(term('=', ...a), !sign)
+	case '&':
+		return term(sign ? '&' : '|', ...a.map(x => lowerNot(x, sign)))
+	case '<=>':
+		return term(a.op, lowerNot(a[0], sign), lowerNot(a[1], true))
+	case '<~>':
+		return lowerNot(term('<=>', ...a), !sign)
+	case '=>':
+		return lowerNot(term('|', term('~', a[0]), a[1]), sign)
+	case '?':
+		return quant(sign ? '?' : '|', a.variables, lowerNot(a[0], sign))
+	case '|':
+		return term(sign ? '|' : '&', ...a.map(x => lowerNot(x, sign)))
+	case '~':
+		return lowerNot(a[0], !sign)
+	case '~&':
+		return lowerNot(term('&', ...a), !sign)
+	case '~|':
+		return lowerNot(term('|', ...a), !sign)
+	}
+	if (sign)
+		return a
+	return term('~', a)
+}
+
+function raiseAnd(a) {
+	function rename(a) {
+		if (!complex(a))
+			return a
+		var b = skolem(freeVariables(a))
+		a = term('=>', b, a)
+		convert1(a)
+		return b
+	}
+
+	switch (a.op) {
+	case '&':
+		return map(a, raiseAnd)
+	case '|':
+		a = map(a, raiseAnd)
+		if (iop.count(a, x => x.op === '&') === 1) {
+			var cs = []
+			var i = a.findIndex(x => x.op === '&')
+			flatten('&', a[i], cs)
+			cs = alternate(a, i, cs)
+			return term('&', ...cs)
+		}
+		return map(a, x => x.op === '&' ? rename(x) : x)
+	}
+	return a
+}
+
+function skolem(args) {
+	return call(fun(), args)
+}
+
+// Other
 
 function eq(a, b) {
 	if (a === b)
@@ -305,66 +502,6 @@ function evaluate(a, m) {
 	return a
 }
 
-function flatten(op, a, cs) {
-	if (a.op === op) {
-		for (var x of a)
-			flatten(op, x, cs)
-		return
-	}
-	cs.push(a)
-}
-
-function freeVariables(a) {
-	var r = new Set()
-
-	function rec(a, bound) {
-		switch (a.op) {
-		case '!':
-		case '?':
-			for (var x of a.variables)
-				bound = bound.add(x, x)
-			break
-		case 'variable':
-			if (!bound.get(a))
-				r.add(a)
-			break
-		}
-		for (var x of a)
-			rec(x, bound)
-	}
-
-	rec(a, empty)
-	return Array.from(r)
-}
-
-function fun(name) {
-	var a = []
-	a.name = name
-	a.op = 'fun'
-	a.toString = function () {
-		if (!this.name)
-			this.name = letter(funCount++).toLowerCase()
-		return this.name
-	}
-	return a
-}
-
-function integer(val) {
-	switch (typeof val) {
-	case 'number':
-	case 'string':
-		val = bigInt(val)
-		break
-	}
-	var a = []
-	a.op = 'integer'
-	a.toString = function () {
-		return this.val
-	}
-	a.val = val
-	return a
-}
-
 function isConst(a) {
 	switch (a.op) {
 	case 'bool':
@@ -462,37 +599,6 @@ function letter(n) {
 	return 'Z' + (n - 25)
 }
 
-function lowerNot(a, sign) {
-	assert(typeof sign === 'boolean')
-	switch (a.op) {
-	case '!':
-		return quant(sign ? '!' : '?', a.variables, lowerNot(a[0], sign))
-	case '!=':
-		return lowerNot(term('=', ...a), !sign)
-	case '&':
-		return term(sign ? '&' : '|', ...a.map(x => lowerNot(x, sign)))
-	case '<=>':
-		return term(a.op, lowerNot(a[0], sign), lowerNot(a[1], true))
-	case '<~>':
-		return lowerNot(term('<=>', ...a), !sign)
-	case '=>':
-		return lowerNot(term('|', term('~', a[0]), a[1]), sign)
-	case '?':
-		return quant(sign ? '?' : '|', a.variables, lowerNot(a[0], sign))
-	case '|':
-		return term(sign ? '|' : '&', ...a.map(x => lowerNot(x, sign)))
-	case '~':
-		return lowerNot(a[0], !sign)
-	case '~&':
-		return lowerNot(term('&', ...a), !sign)
-	case '~|':
-		return lowerNot(term('|', ...a), !sign)
-	}
-	if (sign)
-		return a
-	return term('~', a)
-}
-
 function map(a, f) {
 	if (!a.length)
 		return a
@@ -513,93 +619,6 @@ function occurs(a, b, m) {
 	for (var x of b)
 		if (occurs(a, x, m))
 			return true
-}
-
-function quant(op, variables, arg) {
-	assert(typeof op === 'string')
-	assert(!variables.op)
-	assert(variables.every(x => x.op === 'variable'))
-	assert(isTerm(arg))
-	var a = [arg]
-	a.op = op
-	a.toString = function () {
-		return this.op + '[' + this.variables.join(', ') + ']: ' + this[0]
-	}
-	a.variables = variables
-	return a
-}
-
-function raiseAnd(a) {
-	function rename(a) {
-		if (!complex(a))
-			return a
-		var b = skolem(freeVariables(a))
-		a = term('=>', b, a)
-		convert1(a)
-		return b
-	}
-
-	switch (a.op) {
-	case '&':
-		return map(a, raiseAnd)
-	case '|':
-		a = map(a, raiseAnd)
-		if (iop.count(a, x => x.op === '&') === 1) {
-			var cs = []
-			var i = a.findIndex(x => x.op === '&')
-			flatten('&', a[i], cs)
-			cs = alternate(a, i, cs)
-			return term('&', ...cs)
-		}
-		return map(a, x => x.op === '&' ? rename(x) : x)
-	}
-	return a
-}
-
-function rational(val) {
-	switch (typeof val) {
-	case 'number':
-	case 'string':
-		val = bigRat(val)
-		break
-	}
-	var a = []
-	a.op = 'rational'
-	a.toString = function () {
-		return this.val
-	}
-	a.val = val
-	return a
-}
-
-function real(val) {
-	switch (typeof val) {
-	case 'number':
-	case 'string':
-		val = bigRat(val)
-		break
-	}
-	var a = []
-	a.op = 'real'
-	a.toString = function () {
-		return this.val
-	}
-	a.val = val
-	return a
-}
-
-function skolem(args) {
-	return call(fun(), args)
-}
-
-function term(op, ...args) {
-	assert(typeof op === 'string')
-	var a = Array.from(args)
-	a.op = op
-	a.toString = function () {
-		return op + '(' + this.join(', ') + ')'
-	}
-	return a
 }
 
 function unify(a, b, m=new Map()) {
@@ -642,18 +661,6 @@ function vals(m) {
 	for (var r = []; m; m = m.outer)
 		r.push(m.val)
 	return r
-}
-
-function variable(name) {
-	var a = []
-	a.name = name
-	a.op = 'variable'
-	a.toString = function () {
-		if (!this.name)
-			this.name = letter(variableCount++)
-		return this.name
-	}
-	return a
 }
 
 exports.bool = bool
