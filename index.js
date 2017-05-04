@@ -621,7 +621,7 @@ function occurs(a, b, m) {
 			return true
 }
 
-function unify(a, b, m=new Map()) {
+function unify(a, b, m=empty) {
 	if (a === b)
 		return m
 	if (a.op === 'variable')
@@ -653,8 +653,7 @@ function unifyVariable(a, b, m) {
 		return unify(a, b1, m)
 	if (occurs(a, b, m))
 		return
-	m.set(a, b)
-	return m
+	return m.add(a, b)
 }
 
 function vals(m) {
