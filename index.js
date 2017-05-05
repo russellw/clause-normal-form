@@ -32,6 +32,22 @@ class Collection {
 	get isCollection() {
 		return true
 	}
+
+	get keys() {
+		var r = []
+		for (var m = this; m; m = m.next)
+			if (!r.some(key => eq(key, m.key)))
+				r.push(m.key)
+		return r
+	}
+
+	get vals() {
+		var r = []
+		for (var m = this; m; m = m.next)
+			if (!r.some(key => eq(key, m.key)))
+				r.push(m.val)
+		return r
+	}
 }
 
 var empty = {
@@ -46,6 +62,8 @@ var empty = {
 	},
 
 	isCollection: true,
+	keys: [],
+	vals: [],
 }
 
 // Factory functions
