@@ -34,19 +34,22 @@ class Collection {
 	}
 
 	get keys() {
-		var r = []
+		var keys = []
 		for (var m = this; m; m = m.next)
-			if (!r.some(key => eq(key, m.key)))
-				r.push(m.key)
-		return r
+			if (!keys.some(key => eq(key, m.key)))
+				keys.push(m.key)
+		return keys
 	}
 
 	get vals() {
-		var r = []
+		var keys = []
+		var vals = []
 		for (var m = this; m; m = m.next)
-			if (!r.some(key => eq(key, m.key)))
-				r.push(m.val)
-		return r
+			if (!keys.some(key => eq(key, m.key))) {
+				keys.push(m.key)
+				vals.push(m.val)
+			}
+		return vals
 	}
 }
 
