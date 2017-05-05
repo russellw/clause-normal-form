@@ -112,7 +112,13 @@ function integer(val) {
 }
 
 function quant(op, variables, arg) {
-	assert(typeof op === 'string')
+	switch (op) {
+	case '!':
+	case '?':
+		break
+	default:
+		throw new Error(op)
+	}
 	assert(!variables.op)
 	assert(variables.every(x => x.op === 'variable'))
 	assert(isTerm(arg))
