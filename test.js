@@ -1,3 +1,4 @@
+var _ = require('lodash')
 var assert = require('assert')
 var bigInt = require('big-integer')
 var bigRat = require('big-rational')
@@ -833,5 +834,14 @@ describe('Collection', function () {
 		assert(m.get(index.term('~', a)) === undefined)
 		assert(m1.get(index.term('~', a)) === 1)
 		assert(m2.get(index.term('~', a)) === 2)
+	})
+	it('keys', function () {
+		var m = index.empty
+		m = m.add('a', 1)
+		m = m.add('b', 2)
+		m = m.add('b', 3)
+		m = m.add('b', 4)
+		m = m.add('a', 5)
+		assert(_.difference(m.keys, ['a', 'b']).length === 0)
 	})
 })

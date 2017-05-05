@@ -427,6 +427,8 @@ function skolem(args) {
 function eq(a, b) {
 	if (a === b)
 		return true
+	if (!isTerm(a) || !isTerm(b))
+		return
 	if (a.op !== b.op)
 		return
 	if (a.variables) {
