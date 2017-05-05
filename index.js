@@ -164,7 +164,29 @@ function real(val) {
 }
 
 function term(op, ...args) {
-	assert(typeof op === 'string')
+	switch (op) {
+	case '!=':
+	case '<':
+	case '<=':
+	case '<=>':
+	case '<~>':
+	case '=':
+	case '=>':
+	case '>':
+	case '>=':
+	case '~&':
+	case '~|':
+		assert(args.length === 2)
+		break
+	case '&':
+	case '|':
+		break
+	case '~':
+		assert(args.length === 1)
+		break
+	default:
+		throw new Error(op)
+	}
 	var a = Array.from(args)
 	a.op = op
 	a.toString = function () {
