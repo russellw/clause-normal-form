@@ -705,6 +705,15 @@ describe('convert', function () {
 		clauses.push(index.term('|', b))
 		assert(index.isomorphic(index.convert(index.term('&', a, b)), clauses))
 	})
+	it('a | (b & c) -> (a | b) & (a | c)', function () {
+		var a = index.fun()
+		var b = index.fun()
+		var c = index.fun()
+		var clauses = index.term('&')
+		clauses.push(index.term('|', a, b))
+		clauses.push(index.term('|', a, c))
+		assert(index.isomorphic(index.convert(index.term('|', a, index.term('&', b, c))), clauses))
+	})
 })
 describe('isFalse', function () {
 	it('isFalse(false)', function () {
