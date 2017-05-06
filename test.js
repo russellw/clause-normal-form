@@ -706,9 +706,9 @@ describe('convert', function () {
 		assert(index.isomorphic(index.convert(index.term('&', a, b)), clauses))
 	})
 	it('a | (b & c) -> (a | b) & (a | c)', function () {
-		var a = index.fun()
-		var b = index.fun()
-		var c = index.fun()
+		var a = index.fun('a')
+		var b = index.fun('b')
+		var c = index.fun('c')
 		var clauses = index.term('&')
 		clauses.push(index.term('|', a, b))
 		clauses.push(index.term('|', a, c))
