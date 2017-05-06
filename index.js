@@ -9,15 +9,15 @@ var clauses
 var funCount = 0
 var variableCount = 0
 
-// Collections
+// Functional maps
 
-class Collection {
+class FunMap {
 	constructor(next) {
 		this.next = next
 	}
 
 	add(key, val) {
-		var m = new Collection(this)
+		var m = new FunMap(this)
 		m.key = key
 		m.val = val
 		return m
@@ -27,10 +27,6 @@ class Collection {
 		for (var m = this; m; m = m.next)
 			if (eq(m.key, key))
 				return m.val
-	}
-
-	get isCollection() {
-		return true
 	}
 
 	get keys() {
@@ -55,7 +51,7 @@ class Collection {
 
 var empty = {
 	add(key, val) {
-		var m = new Collection()
+		var m = new FunMap()
 		m.key = key
 		m.val = val
 		return m
@@ -64,7 +60,6 @@ var empty = {
 	get() {
 	},
 
-	isCollection: true,
 	keys: [],
 	vals: [],
 }
@@ -465,7 +460,6 @@ function eq(a, b) {
 
 function evaluate(a, m) {
 	assert(isTerm(a))
-	assert(m.isCollection)
 	var r = m.get(a)
 	if (r)
 		return r

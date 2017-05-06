@@ -41,6 +41,40 @@ var cnf = require('clause-normal-form')
 
 And prefix functions with `cnf.`
 
+### Functional maps
+
+A purely functional map class. Keys are compared with `eq` so keys can be terms and don't need to be ordered, just comparable by strict equality. The tradeoff is that lookup takes linear time.
+
+```
+m = cnf.empty
+```
+
+The empty map.
+
+```
+m.add(key, val)
+```
+
+Add a new key-value pair to the map, returning the new map while leaving the old one unchanged. Any existing value for that key will be overridden.
+
+```
+m.get(key)
+```
+
+Get a value. If not present, returns `undefined`.
+
+```
+m.keys
+```
+
+An array of all the keys in this map, most recently added first.
+
+```
+m.vals
+```
+
+An array of all the values in this map, most recently added first.
+
 ### Factory functions
 
 Terms are created with factory functions:
@@ -125,7 +159,7 @@ Test two terms for equality.
 evaluate(a, m)
 ```
 
-Evaluate a term, looking up substitutions in the `Map` m.
+Evaluate a term, looking up substitutions in the map m.
 
 ```
 isomorphic(a, b)
@@ -137,10 +171,10 @@ Check whether two terms are isomorphic. This is similar to equality except that 
 occurs(a, b, m)
 ```
 
-Check whether term a occurs in term b, looking up substitutions in the `Map` m.
+Check whether term a occurs in term b, looking up substitutions in the map m.
 
 ```
-unify(a, b, m=new Map())
+unify(a, b, m=empty)
 ```
 
 Unify two terms, returning a map of substitutions, or false if the terms could not be unified.
