@@ -228,7 +228,7 @@ function variable(name) {
 function alternate(a, i, alts) {
 	var r = []
 	for (var alt of alts) {
-		var b = Array.from(a)
+		var b = clone(a, false, 1)
 		b[i] = alt
 		r.push(b)
 	}
