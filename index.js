@@ -649,7 +649,7 @@ function map(a, f) {
 		return a
 	a = clone(a, false, 1)
 	for (var i = 0; i < a.length; i++)
-		a[i] = f(a[i])
+		a[i] = f(a[i], i, a)
 	return a
 }
 
@@ -719,6 +719,7 @@ exports.integer = integer
 exports.isFalse = isFalse
 exports.isTrue = isTrue
 exports.isomorphic = isomorphic
+exports.map = map
 exports.occurs = occurs
 exports.quant = quant
 exports.rational = rational

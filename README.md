@@ -168,6 +168,12 @@ isomorphic(a, b)
 Check whether two terms are isomorphic. This is similar to equality except that two atoms are isomorphic if they have the same name. Furthermore, when an anonymous atom is compared with a named one, the anonymous one is given that name, and when two anonymous atoms are compared, they are both given the same generated name. This function is mainly used for writing tests.
 
 ```
+map(a, f)
+```
+
+As `Array.prototype.map` but produces a new term.
+
+```
 occurs(a, b, m)
 ```
 
