@@ -70,9 +70,6 @@ function bool(val) {
 	assert(typeof val === 'boolean')
 	var a = []
 	a.op = 'bool'
-	a.toString = function () {
-		return this.val
-	}
 	a.val = val
 	return a
 }
@@ -82,9 +79,6 @@ function call(f, args) {
 	var a = Array.from(args)
 	a.op = 'call'
 	a.f = f
-	a.toString = function () {
-		return this.f + '(' + this.join(', ') + ')'
-	}
 	return a
 }
 
@@ -93,9 +87,6 @@ function distinct_obj(name) {
 	var a = []
 	a.name = name
 	a.op = 'distinct_obj'
-	a.toString = function () {
-		return '"' + this.name + '"'
-	}
 	return a
 }
 
@@ -103,11 +94,6 @@ function fun(name) {
 	var a = []
 	a.name = name
 	a.op = 'fun'
-	a.toString = function () {
-		if (!this.name)
-			this.name = letter(funCount++).toLowerCase()
-		return this.name
-	}
 	return a
 }
 
@@ -120,9 +106,6 @@ function integer(val) {
 	}
 	var a = []
 	a.op = 'integer'
-	a.toString = function () {
-		return this.val
-	}
 	a.val = val
 	return a
 }
@@ -140,9 +123,6 @@ function quant(op, variables, arg) {
 	assert(isTerm(arg))
 	var a = [arg]
 	a.op = op
-	a.toString = function () {
-		return this.op + '[' + this.variables.join(', ') + ']: ' + this[0]
-	}
 	a.variables = variables
 	return a
 }
@@ -156,9 +136,6 @@ function rational(val) {
 	}
 	var a = []
 	a.op = 'rational'
-	a.toString = function () {
-		return this.val
-	}
 	a.val = val
 	return a
 }
@@ -172,9 +149,6 @@ function real(val) {
 	}
 	var a = []
 	a.op = 'real'
-	a.toString = function () {
-		return this.val
-	}
 	a.val = val
 	return a
 }
@@ -205,9 +179,6 @@ function term(op, ...args) {
 	}
 	var a = Array.from(args)
 	a.op = op
-	a.toString = function () {
-		return op + '(' + this.join(', ') + ')'
-	}
 	return a
 }
 
@@ -215,11 +186,6 @@ function variable(name) {
 	var a = []
 	a.name = name
 	a.op = 'variable'
-	a.toString = function () {
-		if (!this.name)
-			this.name = letter(variableCount++)
-		return this.name
-	}
 	return a
 }
 
