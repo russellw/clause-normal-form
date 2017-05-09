@@ -340,7 +340,7 @@ function lowerNot(a, sign) {
 	case '=>':
 		return lowerNot(term('|', term('~', a[0]), a[1]), sign)
 	case '?':
-		return quant(sign ? '?' : '|', a.variables, lowerNot(a[0], sign))
+		return quant(sign ? '?' : '!', a.variables, lowerNot(a[0], sign))
 	case '|':
 		return term(sign ? '|' : '&', ...a.map(x => lowerNot(x, sign)))
 	case '~':
