@@ -64,6 +64,12 @@ m.get(key)
 Get a value. If not present, returns `undefined`.
 
 ```
+m.remove(key)
+```
+
+Remove a key from the map if it was present, returning the new map while leaving the old one unchanged.
+
+```
 m.keys
 ```
 
