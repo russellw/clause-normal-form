@@ -881,4 +881,13 @@ describe('Collection', function () {
 		m = m.add('a', 5)
 		assert(m.remove('a').size === 1)
 	})
+	it('smallest', function () {
+		var m = index.empty
+		m = m.add('d', 4)
+		m = m.add('e', 0)
+		m = m.add('a', 1)
+		m = m.add('b', 2)
+		m = m.add('c', 3)
+		assert(m.smallest((a, b) => a < b) === 'a')
+	})
 })

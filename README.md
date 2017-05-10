@@ -87,6 +87,12 @@ m.size
 
 The number of keys in this map.
 
+```
+m.smallest(less)
+```
+
+The smallest key in this map, according to the specified comparison function that should return true when the first argument is less than the second.
+
 ### Factory functions
 
 Terms are created with factory functions:

@@ -49,6 +49,14 @@ class FunMap {
 		return this.keys.length
 	}
 
+	smallest(less) {
+		var r = this.key
+		for (var m = this.next; m; m = m.next)
+			if (less(m.key, r))
+				r = m.key
+		return r
+	}
+
 	get vals() {
 		var keys = []
 		var vals = []
