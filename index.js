@@ -37,6 +37,10 @@ class FunMap {
 		return keys
 	}
 
+	get size() {
+		return this.keys.length
+	}
+
 	get vals() {
 		var keys = []
 		var vals = []
@@ -61,6 +65,7 @@ var empty = {
 	},
 
 	keys: [],
+	size: 0,
 	vals: [],
 }
 

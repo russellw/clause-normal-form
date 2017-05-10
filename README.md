@@ -75,6 +75,12 @@ m.vals
 
 An array of all the values in this map, most recently added first.
 
+```
+m.size
+```
+
+The number of keys in this map.
+
 ### Factory functions
 
 Terms are created with factory functions:

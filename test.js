@@ -862,4 +862,13 @@ describe('Collection', function () {
 		m = m.add('a', 5)
 		assert(_.difference(m.vals, [5, 4]).length === 0)
 	})
+	it('size', function () {
+		var m = index.empty
+		m = m.add('a', 1)
+		m = m.add('b', 2)
+		m = m.add('b', 3)
+		m = m.add('b', 4)
+		m = m.add('a', 5)
+		assert(m.size === 2)
+	})
 })
