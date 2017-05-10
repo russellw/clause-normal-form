@@ -871,4 +871,14 @@ describe('Collection', function () {
 		m = m.add('a', 5)
 		assert(m.size === 2)
 	})
+	it('remove', function () {
+		var m = index.empty
+		assert(m.remove('a').size === 0)
+		m = m.add('a', 1)
+		m = m.add('b', 2)
+		m = m.add('b', 3)
+		m = m.add('b', 4)
+		m = m.add('a', 5)
+		assert(m.remove('a').size === 1)
+	})
 })

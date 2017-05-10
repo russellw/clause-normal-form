@@ -37,6 +37,14 @@ class FunMap {
 		return keys
 	}
 
+	remove(key1) {
+		var keys = []
+		for (var m = this; m; m = m.next)
+			if (!eq(m.key, key1) && !keys.some(key => eq(key, m.key)))
+				keys.push(m.key)
+		return from(keys)
+	}
+
 	get size() {
 		return this.keys.length
 	}
@@ -65,8 +73,20 @@ var empty = {
 	},
 
 	keys: [],
+
+	remove() {
+		return empty
+	},
+
 	size: 0,
 	vals: [],
+}
+
+function from(a) {
+	var m = empty
+	for (var i = a.length; i--;)
+		m = m.add(a[i])
+	return m
 }
 
 // Factory functions
